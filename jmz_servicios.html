@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JMZ Servicios · Soporte Técnico Profesional</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#05080f;--bg2:#080d1a;--bg3:#0a1020;
+  --card:#0d1525;--card2:#111c30;--card3:#162038;
+  --b:#1a2d50;--b2:#1e3460;--b3:#243c70;
+  --blue:#1a56db;--blue2:#2563eb;--blue3:#3b82f6;--blue4:#60a5fa;
+  --cyan:#06b6d4;--cyan2:#22d3ee;
+  --green:#10b981;--green2:#34d399;--green-bg:rgba(16,185,129,.08);
+  --amber:#f59e0b;--amber2:#fbbf24;--amber-bg:rgba(245,158,11,.08);
+  --red:#ef4444;--red-bg:rgba(239,68,68,.08);
+  --purple:#8b5cf6;--purple2:#a78bfa;--purple-bg:rgba(139,92,246,.08);
+  --text:#eef2ff;--text2:#94a3b8;--text3:#64748b;--text4:#3d5070;
+  --radius:12px;--r2:20px;--r3:24px;
+  --shadow:0 0 0 1px rgba(99,149,255,.08),0 8px 32px rgba(0,0,0,.4);
+  --glow:0 0 30px rgba(37,99,235,.2);
+}
+
+/* ===== ACCESSIBILITY ===== */
+.a11y-bar{position:fixed;top:0;left:0;right:0;background:var(--card);border-bottom:1px solid var(--b);padding:6px 1rem;display:flex;align-items:center;gap:10px;z-index:2000;transform:translateY(-100%);transition:transform .3s}
+.a11y-bar.show{transform:translateY(0)}
+.a11y-btn{background:var(--card2);border:1px solid var(--b);color:var(--text2);border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit;display:flex;align-items:center;gap:5px}
+.a11y-btn:hover,.a11y-btn.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.a11y-trigger{position:fixed;bottom:90px;right:20px;z-index:1999;background:var(--blue2);border:none;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow);transition:transform .2s;font-size:18px}
+.a11y-trigger:hover{transform:scale(1.1)}
+body.hi-contrast{--bg:#000;--bg2:#000;--bg3:#000;--card:#111;--card2:#1a1a1a;--card3:#222;--text:#fff;--text2:#eee;filter:contrast(1.3)}
+body.large-text{font-size:18px!important}
+body.large-text .topbar-logo-name{font-size:20px!important}
+body.reduced-motion *{animation:none!important;transition:none!important}
+
+/* ===== BASE ===== */
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+::selection{background:rgba(37,99,235,.3);color:var(--text)}
+a{color:var(--blue4);text-decoration:none}
+
+/* ===== PARTICLES ===== */
+#particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.particle{position:absolute;border-radius:50%;pointer-events:none}
+
+/* ===== GRID OVERLAY ===== */
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(37,99,235,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,.03) 1px,transparent 1px);
+  background-size:60px 60px}
+
+/* ===== AUTH ===== */
+#auth-wrap{position:relative;z-index:10;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.auth-glow{position:fixed;top:30%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;border-radius:50%;background:radial-gradient(ellipse,rgba(37,99,235,.12) 0%,transparent 70%);pointer-events:none}
+
+.auth-card{background:var(--card);border:1px solid var(--b);border-radius:var(--r3);padding:2.5rem 2.2rem;width:100%;max-width:480px;position:relative;box-shadow:var(--shadow),var(--glow)}
+.auth-card::before{content:'';position:absolute;inset:0;border-radius:var(--r3);background:linear-gradient(135deg,rgba(37,99,235,.04) 0%,transparent 60%);pointer-events:none}
+
+.brand-logo{display:flex;align-items:center;gap:12px;margin-bottom:2rem;justify-content:center}
+.brand-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--blue2),var(--cyan));border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,99,235,.4);position:relative;overflow:hidden;flex-shrink:0}
+.brand-icon::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 60%)}
+.brand-icon svg{width:26px;height:26px;fill:#fff;position:relative;z-index:1}
+.brand-text-jmz{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;background:linear-gradient(135deg,#fff,var(--blue4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.brand-sub{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:-2px}
+
+.auth-title{font-size:1.4rem;font-weight:700;text-align:center;margin-bottom:.35rem}
+.auth-sub{font-size:13px;color:var(--text2);text-align:center;margin-bottom:2rem;line-height:1.6}
+
+/* Steps */
+.steps-wrap{margin-bottom:1.75rem}
+.steps{display:flex;align-items:center}
+.sdot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid var(--b);color:var(--text3);background:var(--bg2);flex-shrink:0;transition:all .4s}
+.sdot.active{background:var(--blue2);border-color:var(--blue2);color:#fff;box-shadow:0 0 14px rgba(37,99,235,.5)}
+.sdot.done{background:var(--green);border-color:var(--green);color:#fff}
+.sline{flex:1;height:2px;background:var(--b);transition:background .4s}
+.sline.done{background:var(--green)}
+.step-labels{display:flex;justify-content:space-between;margin-top:6px}
+.slbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;text-align:center;flex:1}
+.slbl.active{color:var(--blue4)}
+.slbl.done{color:var(--green)}
+
+/* Doc type selector */
+.doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
+.doc-card{background:var(--bg2);border:2px solid var(--b);border-radius:var(--radius);padding:.85rem;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:10px}
+.doc-card:hover{border-color:var(--blue3);background:rgba(37,99,235,.06)}
+.doc-card.sel{border-color:var(--blue2);background:rgba(37,99,235,.1)}
+.doc-card-icon{font-size:1.4rem;flex-shrink:0}
+.doc-card-text strong{display:block;font-size:13px;font-weight:600;color:var(--text)}
+.doc-card-text span{font-size:11px;color:var(--text2)}
+
+/* Role grid */
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.25rem}
+.role-card{background:var(--bg2);border:2px solid var(--b);border-radius:var(--radius);padding:.75rem .5rem;text-align:center;cursor:pointer;transition:all .25s}
+.role-card:hover{border-color:var(--blue3);background:rgba(37,99,235,.06);transform:translateY(-2px)}
+.role-card.sel{border-color:var(--blue2);background:rgba(37,99,235,.1)}
+.role-icon{font-size:1.4rem;margin-bottom:.3rem}
+.role-name{font-size:11px;font-weight:600;color:var(--text2)}
+.role-card.sel .role-name{color:var(--blue4)}
+
+/* Avatar */
+.av-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.av-opt{width:42px;height:42px;border-radius:50%;border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;transition:all .2s;background:var(--bg2)}
+.av-opt:hover,.av-opt.sel{border-color:var(--blue2);transform:scale(1.15);background:rgba(37,99,235,.1)}
+
+/* Fields */
+.field{margin-bottom:.9rem}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--text3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.05em}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.finput{width:100%;background:var(--bg2);border:1.5px solid var(--b);color:var(--text);border-radius:10px;padding:10px 13px;font-size:14px;font-family:inherit;outline:none;transition:all .2s}
+.finput:focus{border-color:var(--blue2);background:rgba(37,99,235,.05);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.finput::placeholder{color:var(--text4)}
+.finput.ok{border-color:var(--green)}
+.finput.err{border-color:var(--red)}
+.fin-wrap{position:relative}
+.fin-ic{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:13px;cursor:pointer;color:var(--text3)}
+.emsg{font-size:11px;color:var(--red);margin-top:3px;min-height:14px}
+.okmsg{font-size:11px;color:var(--green);margin-top:3px}
+
+/* Password strength */
+.pbar-wrap{margin-top:5px}
+.pbar-track{height:3px;background:var(--b);border-radius:2px;overflow:hidden;margin-bottom:3px}
+.pbar-fill{height:100%;border-radius:2px;transition:all .3s}
+.pbar-txt{font-size:10px;color:var(--text3)}
+
+/* Buttons */
+.btn{width:100%;border:none;border-radius:var(--radius);padding:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-p{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;margin-top:.5rem;position:relative;overflow:hidden}
+.btn-p::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);transition:opacity .2s}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(37,99,235,.4)}
+.btn-p:active{transform:scale(.98)}
+.btn-g{background:transparent;border:1.5px solid var(--b);color:var(--text2);margin-top:.5rem}
+.btn-g:hover{border-color:var(--blue3);color:var(--blue4)}
+.link-b{background:none;border:none;color:var(--blue4);font-size:13px;cursor:pointer;font-family:inherit;text-decoration:underline}
+.auth-ftr{text-align:center;margin-top:1.25rem;font-size:13px;color:var(--text2)}
+.divider{display:flex;align-items:center;gap:10px;margin:1.25rem 0;color:var(--text4);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--b)}
+
+/* ===== TOAST ===== */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--card2);border:1px solid var(--b);border-radius:var(--radius);padding:11px 22px;font-size:13px;font-weight:500;color:var(--text);z-index:9999;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;opacity:0;pointer-events:none;white-space:nowrap;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.g{border-color:var(--green);color:var(--green)}
+.toast.r{border-color:var(--red);color:var(--red)}
+
+/* ===== DASHBOARD ===== */
+#dash{display:none;flex-direction:column;min-height:100vh;position:relative;z-index:10}
+
+/* Topbar */
+.topbar{background:rgba(13,21,37,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--b);height:64px;display:flex;align-items:center;padding:0 1.5rem;gap:16px;position:sticky;top:0;z-index:500}
+.topbar-logo{display:flex;align-items:center;gap:10px;flex-shrink:0;cursor:pointer}
+.topbar-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--blue2),var(--cyan));border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(37,99,235,.35)}
+.topbar-logo-icon svg{width:20px;height:20px;fill:#fff}
+.topbar-logo-name{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;background:linear-gradient(135deg,#fff,var(--blue4));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.topbar-search{flex:1;max-width:360px;position:relative}
+.topbar-search input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--b);color:var(--text);border-radius:10px;padding:8px 12px 8px 36px;font-size:13px;font-family:inherit;outline:none;transition:all .2s}
+.topbar-search input:focus{border-color:var(--blue3);background:rgba(37,99,235,.05)}
+.topbar-search input::placeholder{color:var(--text3)}
+.ts-ic{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px;pointer-events:none}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.top-btn{background:rgba(255,255,255,.04);border:1px solid var(--b);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:15px;position:relative;transition:all .2s}
+.top-btn:hover{border-color:var(--blue3);background:rgba(37,99,235,.1)}
+.nbadge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--red);border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;border:2px solid var(--bg)}
+.uchip{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--b);border-radius:24px;padding:4px 12px 4px 4px;cursor:pointer;transition:all .2s}
+.uchip:hover{border-color:var(--blue3)}
+.uav{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--blue2),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.uname{font-size:12px;font-weight:600;color:var(--text)}
+.urole{font-size:10px;color:var(--text2)}
+.dd{position:absolute;top:66px;right:1.5rem;background:var(--card2);border:1px solid var(--b);border-radius:var(--radius);min-width:210px;z-index:600;display:none;padding:.5rem;box-shadow:var(--shadow);animation:ddIn .2s ease}
+@keyframes ddIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.dd.open{display:block}
+.dd-hdr{padding:.6rem .8rem;border-bottom:1px solid var(--b);margin-bottom:.4rem}
+.dd-name{font-size:13px;font-weight:700}
+.dd-role{font-size:11px;color:var(--text2)}
+.ddi{display:flex;align-items:center;gap:9px;padding:.5rem .8rem;border-radius:8px;cursor:pointer;font-size:13px;color:var(--text2);transition:all .15s}
+.ddi:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.ddi.danger:hover{color:var(--red)}
+.dd-sep{height:1px;background:var(--b);margin:.4rem 0}
+
+/* Main */
+.main{flex:1;padding:1.5rem;max-width:1120px;margin:0 auto;width:100%}
+
+/* Hero */
+.hero{background:var(--card);border:1px solid var(--b);border-radius:var(--r2);padding:1.75rem 2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(ellipse,rgba(37,99,235,.1) 0%,transparent 70%)}
+.hero-av{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--blue2),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;box-shadow:0 4px 20px rgba(37,99,235,.3)}
+.hero-txt h2{font-size:1.25rem;font-weight:700}
+.hero-txt p{font-size:13px;color:var(--text2);margin-top:3px}
+.hero-badge{margin-left:auto;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:var(--green2);font-size:11px;font-weight:600;padding:6px 14px;border-radius:24px;display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pls 2s infinite}
+@keyframes pls{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.sc{background:var(--card);border:1px solid var(--b);border-radius:var(--radius);padding:1.1rem 1.25rem;transition:all .3s;cursor:default;position:relative;overflow:hidden}
+.sc::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;background:linear-gradient(135deg,rgba(37,99,235,.04),transparent)}
+.sc:hover{border-color:var(--blue3);transform:translateY(-3px);box-shadow:var(--glow)}
+.sc:hover::after{opacity:1}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.sc-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.sc-chg{font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px}
+.sc-up{background:var(--green-bg);color:var(--green2)}
+.sc-dn{background:var(--red-bg);color:var(--red)}
+.sc-val{font-size:1.7rem;font-weight:800;font-family:'Space Grotesk',sans-serif}
+.sc-lbl{font-size:12px;color:var(--text2);margin-top:2px}
+
+/* Flow */
+.flow-section{margin-bottom:1.5rem}
+.sec-hdr{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.sec-hdr h3{font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
+.sec-hdr::after{content:'';flex:1;height:1px;background:var(--b)}
+.flow-steps{display:flex;align-items:center;background:var(--card);border:1px solid var(--b);border-radius:var(--radius);padding:1rem 1.25rem;gap:0}
+.fs{flex:1;text-align:center}
+.fsc{width:38px;height:38px;border-radius:50%;background:var(--bg2);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:12px;font-weight:700;color:var(--text3);transition:all .3s}
+.fs.act .fsc{background:var(--blue2);border-color:var(--blue2);color:#fff;box-shadow:0 0 16px rgba(37,99,235,.4)}
+.fs.dn .fsc{background:var(--green);border-color:var(--green);color:#fff}
+.fs-lbl{font-size:10px;font-weight:600;color:var(--text3)}
+.fs.act .fs-lbl{color:var(--blue4)}
+.fs.dn .fs-lbl{color:var(--green2)}
+.fl{flex:0 0 28px;height:2px;background:var(--b);transition:background .4s}
+.fl.dn{background:var(--green)}
+
+/* Services */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+.svc{background:var(--card);border:1px solid var(--b);border-radius:var(--radius);padding:1.2rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.svc::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;background:linear-gradient(135deg,rgba(37,99,235,.06),rgba(6,182,212,.03))}
+.svc:hover{border-color:var(--blue3);transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.3),var(--glow)}
+.svc:hover::before{opacity:1}
+.svc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem}
+.svc-em{font-size:1.4rem}
+.svc-badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:10px}
+.b-fast{background:var(--green-bg);color:var(--green2)}
+.b-med{background:var(--amber-bg);color:var(--amber2)}
+.b-slow{background:var(--purple-bg);color:var(--purple2)}
+.svc h4{font-size:13px;font-weight:600;margin-bottom:.3rem}
+.svc p{font-size:11px;color:var(--text2);line-height:1.55}
+.svc-act{display:block;width:100%;background:rgba(255,255,255,.04);border:1px solid var(--b);color:var(--text2);border-radius:8px;padding:7px;font-size:11px;font-weight:500;cursor:pointer;margin-top:.75rem;transition:all .2s;text-align:center;font-family:inherit}
+.svc-act:hover{background:rgba(37,99,235,.12);border-color:var(--blue3);color:var(--blue4)}
+
+/* Two col */
+.tcol{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+.panel{background:var(--card);border:1px solid var(--b);border-radius:var(--radius);padding:1.25rem}
+.ph{font-size:13px;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:6px}
+.ph span{font-size:11px;font-weight:400;color:var(--text2)}
+
+/* Ticket form */
+.tf{margin-bottom:.75rem}
+.tf label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:4px}
+.ti,.tsel,.tta{width:100%;background:var(--bg2);border:1.5px solid var(--b);color:var(--text);border-radius:9px;padding:8px 11px;font-size:13px;font-family:inherit;outline:none;transition:all .2s}
+.ti:focus,.tsel:focus,.tta:focus{border-color:var(--blue2);background:rgba(37,99,235,.04);box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+.ti::placeholder,.tta::placeholder{color:var(--text4)}
+.tsel{cursor:pointer;appearance:none}
+.tsel option{background:var(--card)}
+.tta{resize:vertical;min-height:72px}
+.prio-row{display:flex;gap:6px}
+.pb{background:var(--bg2);border:1px solid var(--b);color:var(--text2);border-radius:20px;padding:4px 13px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
+.pb-l.on{background:var(--green-bg);border-color:rgba(16,185,129,.4);color:var(--green2)}
+.pb-m.on{background:var(--amber-bg);border-color:rgba(245,158,11,.4);color:var(--amber2)}
+.pb-h.on{background:var(--red-bg);border-color:rgba(239,68,68,.4);color:var(--red)}
+.t-submit{width:100%;background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;border:none;border-radius:9px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;margin-top:.75rem;transition:all .2s;font-family:inherit}
+.t-submit:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,99,235,.4)}
+
+/* Ticket list */
+.tkr{display:flex;align-items:center;gap:10px;padding:.75rem 0;border-bottom:1px solid var(--b);transition:background .15s}
+.tkr:last-child{border-bottom:none}
+.tkr:hover{background:rgba(255,255,255,.01)}
+.tknum{font-size:11px;color:var(--text3);font-family:monospace;min-width:62px;flex-shrink:0}
+.tki{flex:1;min-width:0}
+.tkd{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tks{font-size:11px;color:var(--text2)}
+.tkp{font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.p-op{background:rgba(16,185,129,.08);color:var(--green2)}
+.p-pr{background:rgba(37,99,235,.08);color:var(--blue4)}
+.p-dn{background:rgba(100,116,139,.08);color:var(--text3)}
+
+/* Contact bar */
+.contact-bar{background:var(--card);border:1px solid var(--b);border-radius:var(--radius);padding:1.1rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.cbi{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)}
+.cbi a{color:var(--text);text-decoration:none;transition:color .2s}
+.cbi a:hover{color:var(--blue4)}
+.cbi-ic{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+
+/* Footer */
+.footer{text-align:center;padding:1.5rem 0 2rem;font-size:11px;color:var(--text3);border-top:1px solid var(--b);margin-top:1rem}
+
+/* ===== CHATBOT ===== */
+.chat-bubble{position:fixed;bottom:28px;right:20px;z-index:1000}
+.chat-toggle{width:56px;height:56px;background:linear-gradient(135deg,var(--blue2),var(--cyan));border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(37,99,235,.5);transition:transform .3s,box-shadow .3s;position:relative}
+.chat-toggle:hover{transform:scale(1.08);box-shadow:0 6px 32px rgba(37,99,235,.6)}
+.chat-toggle svg{width:26px;height:26px;fill:#fff;transition:all .3s}
+.chat-pulse{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:var(--green);border-radius:50%;border:2px solid var(--bg)}
+.chat-pulse::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--green);animation:cpls 2s infinite}
+@keyframes cpls{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(2)}}
+
+.chat-window{position:absolute;bottom:68px;right:0;width:340px;background:var(--card);border:1px solid var(--b);border-radius:var(--r2);box-shadow:var(--shadow),0 0 40px rgba(0,0,0,.5);display:none;flex-direction:column;max-height:520px;animation:cwIn .25s cubic-bezier(.34,1.56,.64,1);overflow:hidden}
+.chat-window.open{display:flex}
+@keyframes cwIn{from{opacity:0;transform:scale(.9) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.chat-head{background:linear-gradient(135deg,var(--card2),var(--card3));border-bottom:1px solid var(--b);padding:1rem 1.1rem;display:flex;align-items:center;gap:10px}
+.bot-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--blue2),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;position:relative}
+.bot-av::after{content:'';position:absolute;bottom:0;right:0;width:10px;height:10px;background:var(--green);border-radius:50%;border:2px solid var(--card2)}
+.bot-name{font-size:14px;font-weight:700}
+.bot-status{font-size:11px;color:var(--green2)}
+.chat-close{margin-left:auto;background:none;border:none;color:var(--text2);cursor:pointer;font-size:18px;padding:0;line-height:1;transition:color .2s}
+.chat-close:hover{color:var(--red)}
+
+.chat-msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.chat-msgs::-webkit-scrollbar{width:4px}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+.msg{max-width:85%;padding:.65rem .9rem;border-radius:14px;font-size:13px;line-height:1.55;animation:msgIn .25s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg-bot{background:var(--card2);border:1px solid var(--b);border-radius:14px 14px 14px 4px;color:var(--text);align-self:flex-start}
+.msg-user{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;border-radius:14px 14px 4px 14px;align-self:flex-end}
+.msg-typing{background:var(--card2);border:1px solid var(--b);border-radius:14px 14px 14px 4px;align-self:flex-start;padding:.65rem 1rem}
+.dots{display:flex;gap:4px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--text3);animation:dt .8s infinite}
+.dot:nth-child(2){animation-delay:.15s}
+.dot:nth-child(3){animation-delay:.3s}
+@keyframes dt{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+
+.chat-opts{padding:.5rem 1rem;display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--b)}
+.copt{background:var(--card2);border:1px solid var(--b2);color:var(--text2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:500;cursor:pointer;transition:all .2s;font-family:inherit}
+.copt:hover{background:rgba(37,99,235,.15);border-color:var(--blue3);color:var(--blue4)}
+
+.chat-inp-row{padding:.75rem;border-top:1px solid var(--b);display:flex;gap:8px;background:var(--card)}
+.chat-inp{flex:1;background:var(--bg2);border:1.5px solid var(--b);color:var(--text);border-radius:10px;padding:8px 12px;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s}
+.chat-inp:focus{border-color:var(--blue2)}
+.chat-inp::placeholder{color:var(--text3)}
+.chat-send{background:var(--blue2);border:none;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;color:#fff;font-size:15px;flex-shrink:0}
+.chat-send:hover{background:var(--blue3);transform:scale(1.05)}
+
+@media(max-width:640px){
+  .stats{grid-template-columns:1fr 1fr}
+  .svc-grid{grid-template-columns:1fr 1fr}
+  .tcol{grid-template-columns:1fr}
+  .frow{grid-template-columns:1fr}
+  .hero{flex-wrap:wrap}
+  .hero-badge{margin-left:0;margin-top:.5rem}
+  .chat-window{width:calc(100vw - 2rem);right:-10px}
+  .contact-bar{gap:1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Grid bg -->
+<div class="grid-bg"></div>
+<div id="particles"></div>
+
+<!-- Accessibility bar -->
+<div class="a11y-bar" id="a11y-bar">
+  <span style="font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Accesibilidad</span>
+  <button class="a11y-btn" onclick="toggleA11y('hi-contrast',this)">🌗 Alto contraste</button>
+  <button class="a11y-btn" onclick="toggleA11y('large-text',this)">🔡 Texto grande</button>
+  <button class="a11y-btn" onclick="toggleA11y('reduced-motion',this)">⏸ Sin animaciones</button>
+</div>
+<button class="a11y-trigger" onclick="document.getElementById('a11y-bar').classList.toggle('show')" title="Opciones de accesibilidad" aria-label="Accesibilidad">♿</button>
+
+<!-- ===== AUTH ===== -->
+<div id="auth-wrap">
+  <div class="auth-glow"></div>
+
+  <!-- LOGIN -->
+  <div id="scr-login" class="auth-card">
+    <div class="brand-logo">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 2a8 8 0 110 16A8 8 0 0112 4zm-1 3v6l5 3-1 1.7-6-3.7V7h2z"/></svg>
+      </div>
+      <div>
+        <div class="brand-text-jmz">JMZ Servicios</div>
+        <div class="brand-sub">Soporte Técnico Profesional</div>
+      </div>
+    </div>
+    <h1 class="auth-title">Bienvenido</h1>
+    <p class="auth-sub">Accede a tu cuenta para gestionar solicitudes de soporte técnico</p>
+    <div class="field">
+      <label>Correo electrónico</label>
+      <input class="finput" type="email" id="l-email" placeholder="correo@ejemplo.com">
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <div class="fin-wrap">
+        <input class="finput" type="password" id="l-pass" placeholder="••••••••">
+        <span class="fin-ic" onclick="togglePass('l-pass',this)">👁</span>
+      </div>
+    </div>
+    <button class="btn btn-p" onclick="doLogin()">Iniciar sesión</button>
+    <div class="divider">o</div>
+    <button class="btn btn-g" onclick="showScr('scr-reg')">Crear cuenta nueva</button>
+    <div style="text-align:center;margin-top:1rem;font-size:11px;color:var(--text3)">Demo: cualquier correo y contraseña válidos</div>
+  </div>
+
+  <!-- REGISTER -->
+  <div id="scr-reg" class="auth-card" style="display:none;max-width:500px">
+    <div class="brand-logo">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 2a8 8 0 110 16A8 8 0 0112 4zm-1 3v6l5 3-1 1.7-6-3.7V7h2z"/></svg>
+      </div>
+      <div><div class="brand-text-jmz">JMZ Servicios</div></div>
+    </div>
+    <div class="steps-wrap">
+      <div class="steps">
+        <div class="sdot active" id="sd1">1</div>
+        <div class="sline" id="sl1"></div>
+        <div class="sdot" id="sd2">2</div>
+        <div class="sline" id="sl2"></div>
+        <div class="sdot" id="sd3">3</div>
+      </div>
+      <div class="step-labels">
+        <div class="slbl active" id="slbl1">Tipo de cuenta</div>
+        <div class="slbl" id="slbl2">Datos</div>
+        <div class="slbl" id="slbl3">Acceso</div>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div id="rst1">
+      <h1 class="auth-title" style="font-size:1.2rem">¿Qué tipo de cuenta necesitas?</h1>
+      <p class="auth-sub" style="margin-bottom:1.25rem">Selecciona cómo identificarás tu cuenta</p>
+      <div class="doc-grid">
+        <div class="doc-card" onclick="selectDoc(this,'cedula')">
+          <div class="doc-card-icon">🪪</div>
+          <div class="doc-card-text"><strong>Cédula</strong><span>Ciudadano ecuatoriano</span></div>
+        </div>
+        <div class="doc-card" onclick="selectDoc(this,'pasaporte')">
+          <div class="doc-card-icon">📘</div>
+          <div class="doc-card-text"><strong>Pasaporte</strong><span>Ciudadano extranjero</span></div>
+        </div>
+      </div>
+      <div class="role-grid">
+        <div class="role-card" onclick="selectRole(this,'Cliente')"><div class="role-icon">👤</div><div class="role-name">Cliente</div></div>
+        <div class="role-card" onclick="selectRole(this,'Empresa')"><div class="role-icon">🏢</div><div class="role-name">Empresa</div></div>
+        <div class="role-card" onclick="selectRole(this,'Docente')"><div class="role-icon">👨‍🏫</div><div class="role-name">Docente</div></div>
+        <div class="role-card" onclick="selectRole(this,'Estudiante')"><div class="role-icon">🎓</div><div class="role-name">Estudiante</div></div>
+        <div class="role-card" onclick="selectRole(this,'Técnico')"><div class="role-icon">🔧</div><div class="role-name">Técnico</div></div>
+        <div class="role-card" onclick="selectRole(this,'Otro')"><div class="role-icon">🌐</div><div class="role-name">Otro</div></div>
+      </div>
+      <div id="r1-err" class="emsg" style="display:none">Selecciona tipo de documento y perfil.</div>
+      <div class="field">
+        <label>Elige tu avatar</label>
+        <div class="av-row">
+          <div class="av-opt sel" onclick="pickAv(this,'😀')">😀</div>
+          <div class="av-opt" onclick="pickAv(this,'🧑‍💻')">🧑‍💻</div>
+          <div class="av-opt" onclick="pickAv(this,'👩‍🔬')">👩‍🔬</div>
+          <div class="av-opt" onclick="pickAv(this,'🦸')">🦸</div>
+          <div class="av-opt" onclick="pickAv(this,'🧑‍🎓')">🧑‍🎓</div>
+          <div class="av-opt" onclick="pickAv(this,'🤖')">🤖</div>
+          <div class="av-opt" onclick="pickAv(this,'🧑‍⚕️')">🧑‍⚕️</div>
+          <div class="av-opt" onclick="pickAv(this,'⚡')">⚡</div>
+        </div>
+      </div>
+      <button class="btn btn-p" onclick="goStep(2)">Continuar →</button>
+      <div class="auth-ftr">¿Ya tienes cuenta? <button class="link-b" onclick="showScr('scr-login')">Iniciar sesión</button></div>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="rst2" style="display:none">
+      <h1 class="auth-title" style="font-size:1.2rem">Datos de identificación</h1>
+      <p class="auth-sub" style="margin-bottom:1.25rem">Ingresa tu información personal</p>
+      <div class="frow">
+        <div class="field"><label>Nombres</label><input class="finput" type="text" id="r-nom" placeholder="Jean Pool" oninput="lv(this,2)"><div class="emsg" id="e-nom"></div></div>
+        <div class="field"><label>Apellidos</label><input class="finput" type="text" id="r-ape" placeholder="Mendoza Vera" oninput="lv(this,2)"><div class="emsg" id="e-ape"></div></div>
+      </div>
+      <div class="frow">
+        <div class="field">
+          <label id="doc-label">Número de cédula</label>
+          <input class="finput" type="text" id="r-doc" placeholder="1234567890" oninput="valDoc(this)">
+          <div class="emsg" id="e-doc"></div>
+        </div>
+        <div class="field"><label>Número de teléfono</label><input class="finput" type="tel" id="r-tel" placeholder="0991234567" maxlength="10" oninput="valTel(this)"><div class="emsg" id="e-tel"></div></div>
+      </div>
+      <div class="frow">
+        <div class="field"><label>Edad</label><input class="finput" type="number" id="r-edad" placeholder="22" min="10" max="99" oninput="valEdad(this)"><div class="emsg" id="e-edad"></div></div>
+        <div class="field"><label>Género</label><select class="finput" id="r-gen" style="cursor:pointer;appearance:none"><option value="">Selecciona...</option><option>Masculino</option><option>Femenino</option><option>Prefiero no decir</option></select></div>
+      </div>
+      <div class="field"><label>Ciudad / Dirección</label><input class="finput" type="text" id="r-dir" placeholder="Jipijapa, Manabí..."></div>
+      <button class="btn btn-p" onclick="goStep(3)">Continuar →</button>
+      <button class="btn btn-g" onclick="goStep(1)">← Volver</button>
+    </div>
+
+    <!-- Step 3 -->
+    <div id="rst3" style="display:none">
+      <h1 class="auth-title" style="font-size:1.2rem">Configura tu acceso</h1>
+      <p class="auth-sub" style="margin-bottom:1.25rem">Crea tus credenciales de ingreso</p>
+      <div class="field">
+        <label>Nombre de usuario</label>
+        <div class="fin-wrap">
+          <input class="finput" type="text" id="r-usr" placeholder="jean.mendoza" oninput="valUsr(this)">
+          <span class="fin-ic" id="usr-ic" style="pointer-events:none"></span>
+        </div>
+        <div class="emsg" id="e-usr"></div>
+      </div>
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input class="finput" type="email" id="r-eml" placeholder="correo@ejemplo.com" oninput="valEml(this)">
+        <div class="emsg" id="e-eml"></div>
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <div class="fin-wrap">
+          <input class="finput" type="password" id="r-pw" placeholder="Mínimo 8 caracteres" oninput="checkPw(this)">
+          <span class="fin-ic" onclick="togglePass('r-pw',this)">👁</span>
+        </div>
+        <div class="pbar-wrap"><div class="pbar-track"><div class="pbar-fill" id="pbar" style="width:0%"></div></div><div class="pbar-txt" id="pbar-txt">Ingresa una contraseña</div></div>
+      </div>
+      <div class="field">
+        <label>Confirmar contraseña</label>
+        <div class="fin-wrap">
+          <input class="finput" type="password" id="r-pw2" placeholder="Repite la contraseña" oninput="checkMatch(this)">
+          <span class="fin-ic" id="pw2-ic" style="pointer-events:none"></span>
+        </div>
+        <div class="emsg" id="e-pw2"></div>
+      </div>
+      <button class="btn btn-p" onclick="doRegister()">✓ Crear cuenta</button>
+      <button class="btn btn-g" onclick="goStep(2)">← Volver</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="dash">
+  <div class="topbar">
+    <div class="topbar-logo">
+      <div class="topbar-logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 2a8 8 0 110 16A8 8 0 0112 4zm-1 3v6l5 3-1 1.7-6-3.7V7h2z"/></svg></div>
+      <div class="topbar-logo-name">JMZ Servicios</div>
+    </div>
+    <div class="topbar-search">
+      <span class="ts-ic">🔍</span>
+      <input type="text" placeholder="Buscar servicio o ticket...">
+    </div>
+    <div class="topbar-right">
+      <div class="top-btn" onclick="showToast('3 notificaciones pendientes','')">🔔<div class="nbadge">3</div></div>
+      <div class="uchip" onclick="toggleDD()">
+        <div class="uav" id="d-av">😀</div>
+        <div><div class="uname" id="d-name">Usuario</div><div class="urole" id="d-role">Cliente</div></div>
+      </div>
+      <div class="dd" id="dd">
+        <div class="dd-hdr"><div class="dd-name" id="dd-name">—</div><div class="dd-role" id="dd-role">Cliente</div></div>
+        <div class="ddi">👤 Mi perfil</div>
+        <div class="ddi">🎫 Mis tickets</div>
+        <div class="ddi">⚙️ Configuración</div>
+        <div class="dd-sep"></div>
+        <div class="ddi danger" onclick="logout()">🚪 Cerrar sesión</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-av" id="d-hav">😀</div>
+      <div class="hero-txt">
+        <h2 id="d-hello">Hola, Usuario!</h2>
+        <p id="d-info">Cliente · JMZ Servicios</p>
+      </div>
+      <div class="hero-badge"><div class="pulse"></div>Sistemas en línea</div>
+    </div>
+
+    <!-- Contact bar -->
+    <div class="contact-bar">
+      <div class="cbi"><div class="cbi-ic" style="background:rgba(37,99,235,.1)">📧</div><div><div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:1px">Email</div><a href="mailto:jeanjairxdxd@gmail.com">jeanjairxdxd@gmail.com</a></div></div>
+      <div class="cbi"><div class="cbi-ic" style="background:rgba(16,185,129,.1)">📞</div><div><div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:1px">Teléfono</div><a href="tel:+593962952717">+593 962 952 717</a></div></div>
+      <div class="cbi"><div class="cbi-ic" style="background:rgba(37,211,102,.1)">💬</div><div><div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:1px">WhatsApp</div><a href="https://wa.me/593962952717" target="_blank">0962 952 717</a></div></div>
+      <div class="cbi" style="margin-left:auto"><div class="cbi-ic" style="background:rgba(245,158,11,.1)">📍</div><div><div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:1px">Horario</div><span style="color:var(--text)">Lun–Sáb · 8:00–18:00</span></div></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="sc"><div class="sc-top"><div class="sc-icon" style="background:rgba(16,185,129,.1)">✅</div><span class="sc-chg sc-up">+2 hoy</span></div><div class="sc-val">12</div><div class="sc-lbl">Tickets abiertos</div></div>
+      <div class="sc"><div class="sc-top"><div class="sc-icon" style="background:rgba(37,99,235,.1)">⚡</div><span class="sc-chg sc-up">Activos</span></div><div class="sc-val">4</div><div class="sc-lbl">En progreso</div></div>
+      <div class="sc"><div class="sc-top"><div class="sc-icon" style="background:rgba(245,158,11,.1)">📊</div><span class="sc-chg sc-up">+3%</span></div><div class="sc-val">98%</div><div class="sc-lbl">Tasa de resolución</div></div>
+      <div class="sc"><div class="sc-top"><div class="sc-icon" style="background:rgba(139,92,246,.1)">⏱️</div><span class="sc-chg sc-dn">-0.5h</span></div><div class="sc-val">2.3h</div><div class="sc-lbl">Tiempo promedio</div></div>
+    </div>
+
+    <!-- Flow -->
+    <div class="flow-section">
+      <div class="sec-hdr"><h3>Flujo de atención</h3></div>
+      <div class="flow-steps">
+        <div class="fs dn"><div class="fsc">✓</div><div class="fs-lbl">Solicitud</div></div>
+        <div class="fl dn"></div>
+        <div class="fs dn"><div class="fsc">✓</div><div class="fs-lbl">Diagnóstico</div></div>
+        <div class="fl dn"></div>
+        <div class="fs act"><div class="fsc">3</div><div class="fs-lbl">Intervención</div></div>
+        <div class="fl"></div>
+        <div class="fs"><div class="fsc">4</div><div class="fs-lbl">Pruebas</div></div>
+        <div class="fl"></div>
+        <div class="fs"><div class="fsc">5</div><div class="fs-lbl">Entrega</div></div>
+      </div>
+    </div>
+
+    <!-- Services -->
+    <div class="sec-hdr"><h3>Servicios disponibles</h3></div>
+    <div class="svc-grid">
+      <div class="svc" onclick="fillSvc('Mantenimiento preventivo')"><div class="svc-top"><span class="svc-em">🔧</span><span class="svc-badge b-med">~2 h</span></div><h4>Mantenimiento preventivo</h4><p>Revisión, limpieza y optimización general del equipo para evitar fallas futuras.</p><button class="svc-act">Solicitar servicio</button></div>
+      <div class="svc" onclick="fillSvc('Mantenimiento correctivo')"><div class="svc-top"><span class="svc-em">🛠️</span><span class="svc-badge b-slow">Variable</span></div><h4>Mantenimiento correctivo</h4><p>Diagnóstico y reparación de fallas activas para restablecer el funcionamiento.</p><button class="svc-act">Solicitar servicio</button></div>
+      <div class="svc" onclick="fillSvc('Formateo de equipos')"><div class="svc-top"><span class="svc-em">💿</span><span class="svc-badge b-slow">~3 h</span></div><h4>Formateo de equipos</h4><p>Reinstalación completa del sistema operativo y software esencial.</p><button class="svc-act">Solicitar servicio</button></div>
+      <div class="svc" onclick="fillSvc('Respaldo de información')"><div class="svc-top"><span class="svc-em">📦</span><span class="svc-badge b-fast">~1 h</span></div><h4>Respaldo de información</h4><p>Copia y almacenamiento seguro de datos antes de cualquier intervención.</p><button class="svc-act">Solicitar servicio</button></div>
+      <div class="svc" onclick="fillSvc('Reseteo de impresoras')"><div class="svc-top"><span class="svc-em">🖨️</span><span class="svc-badge b-fast">~30 min</span></div><h4>Reseteo de impresoras</h4><p>Restauración de configuración original para resolver errores de impresión.</p><button class="svc-act">Solicitar servicio</button></div>
+      <div class="svc" onclick="fillSvc('Limpieza de virus')"><div class="svc-top"><span class="svc-em">🦠</span><span class="svc-badge b-fast">~1 h</span></div><h4>Limpieza de virus</h4><p>Detección y eliminación de malware que compromete seguridad y rendimiento.</p><button class="svc-act">Solicitar servicio</button></div>
+    </div>
+
+    <!-- Two col -->
+    <div class="tcol">
+      <div class="panel">
+        <div class="ph">🎫 Nuevo ticket <span>de soporte</span></div>
+        <div class="tf"><label>Servicio requerido</label><select class="tsel" id="tk-svc"><option value="">Selecciona un servicio...</option><option>Mantenimiento preventivo</option><option>Mantenimiento correctivo</option><option>Formateo de equipos</option><option>Respaldo de información</option><option>Reseteo de impresoras</option><option>Limpieza de virus</option><option>Instalación de software</option></select></div>
+        <div class="tf"><label>Tipo de equipo</label><select class="tsel" id="tk-eq"><option value="">Selecciona...</option><option>Laptop</option><option>PC escritorio</option><option>Impresora</option><option>Servidor</option><option>Otro</option></select></div>
+        <div class="tf"><label>Descripción del problema</label><textarea class="tta" id="tk-desc" placeholder="Describe el problema en detalle..."></textarea></div>
+        <div class="tf"><label>Prioridad</label><div class="prio-row"><button class="pb pb-l" onclick="setPrio(this,'l')">Baja</button><button class="pb pb-m" onclick="setPrio(this,'m')">Media</button><button class="pb pb-h" onclick="setPrio(this,'h')">Alta — urgente</button></div></div>
+        <button class="t-submit" onclick="submitTk()">Enviar solicitud de soporte</button>
+      </div>
+      <div class="panel">
+        <div class="ph">📋 Tickets recientes <span id="tkc">(4)</span></div>
+        <div id="tk-list">
+          <div class="tkr"><span class="tknum">#TK-0041</span><div class="tki"><div class="tkd">PC no enciende tras actualización</div><div class="tks">Mantenimiento correctivo</div></div><span class="tkp p-pr">En progreso</span></div>
+          <div class="tkr"><span class="tknum">#TK-0040</span><div class="tki"><div class="tkd">Formateo y reinstalación Windows 11</div><div class="tks">Formateo de equipos</div></div><span class="tkp p-op">Abierto</span></div>
+          <div class="tkr"><span class="tknum">#TK-0039</span><div class="tki"><div class="tkd">Canon no responde a comandos</div><div class="tks">Reseteo de impresoras</div></div><span class="tkp p-dn">Resuelto</span></div>
+          <div class="tkr"><span class="tknum">#TK-0038</span><div class="tki"><div class="tkd">Lentitud extrema, posible malware</div><div class="tks">Limpieza de virus</div></div><span class="tkp p-dn">Resuelto</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">© 2026 JMZ Servicios · Soporte Técnico Profesional · jeanjairxdxd@gmail.com · 0962 952 717</div>
+  </div>
+</div>
+
+<!-- ===== CHATBOT ===== -->
+<div class="chat-bubble">
+  <div class="chat-window" id="cw">
+    <div class="chat-head">
+      <div class="bot-av">🤖</div>
+      <div><div class="bot-name">Asistente JMZ</div><div class="bot-status">● En línea ahora</div></div>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-msgs" id="chat-msgs"></div>
+    <div class="chat-opts" id="chat-opts"></div>
+    <div class="chat-inp-row">
+      <input class="chat-inp" type="text" id="chat-inp" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="chat-send" onclick="sendMsg()">➤</button>
+    </div>
+  </div>
+  <button class="chat-toggle" onclick="toggleChat()">
+    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 10H6V10h12v2zm0-3H6V7h12v2z"/></svg>
+    <div class="chat-pulse"></div>
+  </button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== STATE ===== */
+var ud={doc:'cedula',role:'Cliente',av:'😀',prio:''};
+var usedNames=['jean.m','willian.a','jose.c'];
+var chatOpen=false,chatState='start',chatStep=0,diagTopic='';
+var tkIdx=41;
+
+/* ===== PARTICLES ===== */
+(function(){
+  var c=document.getElementById('particles');
+  for(var i=0;i<50;i++){
+    var p=document.createElement('div');
+    p.className='particle';
+    var sz=Math.random()*2.5+.5;
+    var op=Math.random()*.25+.05;
+    var dur=Math.random()*20+10;
+    var x=Math.random()*100;
+    var y=Math.random()*100;
+    var dx=(Math.random()-.5)*60;
+    var dy=(Math.random()-.5)*40;
+    p.style.cssText='width:'+sz+'px;height:'+sz+'px;background:rgba(99,149,255,'+op+');left:'+x+'%;top:'+y+'%;transition:none';
+    p.style.animation='float'+i+' '+dur+'s infinite linear';
+    var sheet=document.createElement('style');
+    sheet.textContent='@keyframes float'+i+'{0%{transform:translate(0,0)}50%{transform:translate('+dx+'px,'+dy+'px)}100%{transform:translate(0,0)}}';
+    document.head.appendChild(sheet);
+    c.appendChild(p);
+  }
+})();
+
+/* ===== ACCESSIBILITY ===== */
+function toggleA11y(cls,btn){
+  document.body.classList.toggle(cls);
+  btn.classList.toggle('on');
+}
+
+/* ===== UTIL ===== */
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast'+(type?' '+type:'');
+  void t.offsetWidth;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3500);
+}
+function togglePass(id,el){
+  var i=document.getElementById(id);
+  i.type=i.type==='password'?'text':'password';
+  el.textContent=i.type==='password'?'👁':'🙈';
+}
+function showScr(id){
+  document.getElementById('scr-login').style.display=id==='scr-login'?'block':'none';
+  document.getElementById('scr-reg').style.display=id==='scr-reg'?'block':'none';
+}
+function selectDoc(el,val){
+  document.querySelectorAll('.doc-card').forEach(function(c){c.classList.remove('sel');});
+  el.classList.add('sel');ud.doc=val;
+  document.getElementById('doc-label').textContent=val==='cedula'?'Número de cédula':'Número de pasaporte';
+  document.getElementById('r-doc').placeholder=val==='cedula'?'1234567890':'AB123456';
+}
+function selectRole(el,role){
+  document.querySelectorAll('.role-card').forEach(function(c){c.classList.remove('sel');});
+  el.classList.add('sel');ud.role=role;
+}
+function pickAv(el,av){
+  document.querySelectorAll('.av-opt').forEach(function(a){a.classList.remove('sel');});
+  el.classList.add('sel');ud.av=av;
+}
+function goStep(n){
+  if(n===2&&(!ud.doc||!ud.role)){document.getElementById('r1-err').style.display='block';return;}
+  if(n===3){
+    var ok=true;
+    ['r-nom','r-ape','r-doc','r-tel'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(!el.value.trim()){el.classList.add('err');ok=false;}
+    });
+    if(!ok){showToast('Completa los campos requeridos','r');return;}
+  }
+  [1,2,3].forEach(function(i){
+    document.getElementById('rst'+i).style.display=i===n?'block':'none';
+    var dot=document.getElementById('sd'+i);
+    var lbl=document.getElementById('slbl'+i);
+    if(i<n){dot.className='sdot done';dot.textContent='✓';lbl.className='slbl done';}
+    else if(i===n){dot.className='sdot active';dot.textContent=i;lbl.className='slbl active';}
+    else{dot.className='sdot';dot.textContent=i;lbl.className='slbl';}
+    if(i<3){var ln=document.getElementById('sl'+i);if(ln)ln.className='sline'+(i<n?' done':'');}
+  });
+}
+function lv(el,min){el.className='finput'+(el.value.trim().length>=min?' ok':'');}
+function valDoc(el){
+  var v=el.value;
+  var ok=ud.doc==='cedula'?(/^\d{10}$/.test(v)):v.length>=6;
+  el.className='finput'+(ok?' ok':v?' err':'');
+  document.getElementById('e-doc').textContent=(!ok&&v)?(ud.doc==='cedula'?'Debe tener 10 dígitos.':'Mínimo 6 caracteres.'):'';
+}
+function valTel(el){
+  var v=el.value.replace(/\D/g,'');el.value=v;
+  var ok=v.length===10;
+  el.className='finput'+(ok?' ok':v?' err':'');
+  document.getElementById('e-tel').textContent=!ok&&v?'Teléfono de 10 dígitos.':'';
+}
+function valEdad(el){
+  var v=parseInt(el.value);var ok=v>=10&&v<=99;
+  el.className='finput'+(ok?' ok':el.value?' err':'');
+  document.getElementById('e-edad').textContent=!ok&&el.value?'Entre 10 y 99 años.':'';
+}
+function valUsr(el){
+  var v=el.value.trim();var taken=usedNames.includes(v);
+  var ok=v.length>=3&&!taken;
+  el.className='finput'+(ok?' ok':v?' err':'');
+  document.getElementById('usr-ic').textContent=ok?'✅':v?'❌':'';
+  document.getElementById('e-usr').textContent=taken?'Nombre de usuario ya en uso.':'';
+}
+function valEml(el){
+  var ok=el.value.includes('@')&&el.value.includes('.');
+  el.className='finput'+(ok?' ok':el.value?' err':'');
+}
+function checkPw(el){
+  var v=el.value,s=0;
+  if(v.length>=8)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;
+  var bar=document.getElementById('pbar'),txt=document.getElementById('pbar-txt');
+  var w=[0,25,50,75,100][s];
+  var c=['','var(--red)','var(--amber)','var(--blue3)','var(--green)'][s];
+  var l=['Ingresa una contraseña','Débil','Regular','Buena','Fuerte'][s];
+  bar.style.width=w+'%';bar.style.background=c||'';
+  txt.textContent=l;txt.style.color=c||'var(--text3)';
+}
+function checkMatch(el){
+  var p=document.getElementById('r-pw').value,ok=el.value===p&&p.length>0;
+  el.className='finput'+(ok?' ok':el.value?' err':'');
+  document.getElementById('pw2-ic').textContent=ok?'✅':el.value?'❌':'';
+  document.getElementById('e-pw2').textContent=!ok&&el.value?'Las contraseñas no coinciden.':'';
+}
+function doLogin(){
+  var e=document.getElementById('l-email').value.trim();
+  var p=document.getElementById('l-pass').value;
+  if(!e||!p){showToast('Ingresa correo y contraseña','r');return;}
+  if(!e.includes('@')){showToast('Correo inválido','r');return;}
+  var name=e.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+  launchApp(name);
+}
+function doRegister(){
+  var usr=document.getElementById('r-usr').value.trim();
+  var eml=document.getElementById('r-eml').value.trim();
+  var pw=document.getElementById('r-pw').value;
+  var pw2=document.getElementById('r-pw2').value;
+  if(!usr||!eml||!pw){showToast('Completa todos los campos','r');return;}
+  if(pw!==pw2){showToast('Las contraseñas no coinciden','r');return;}
+  if(pw.length<8){showToast('Contraseña mínimo 8 caracteres','r');return;}
+  var nom=document.getElementById('r-nom').value.trim();
+  var ape=document.getElementById('r-ape').value.trim();
+  var name=(nom+' '+ape).trim()||usr;
+  usedNames.push(usr);
+  launchApp(name);
+}
+function launchApp(name){
+  document.getElementById('auth-wrap').style.display='none';
+  var d=document.getElementById('dash');d.style.display='flex';
+  var first=name.split(' ')[0];
+  document.getElementById('d-av').textContent=ud.av;
+  document.getElementById('d-hav').textContent=ud.av;
+  document.getElementById('d-name').textContent=first;
+  document.getElementById('d-role').textContent=ud.role;
+  document.getElementById('d-hello').textContent='Hola, '+first+'! 👋';
+  document.getElementById('d-info').textContent=ud.role+' · JMZ Servicios';
+  document.getElementById('dd-name').textContent=name;
+  document.getElementById('dd-role').textContent=ud.role+' · JMZ Servicios';
+  showToast('Bienvenido a JMZ Servicios, '+first,'g');
+  setTimeout(function(){
+    chatOpen=false;
+    toggleChat();
+  },1800);
+}
+function logout(){
+  document.getElementById('dash').style.display='none';
+  document.getElementById('auth-wrap').style.display='flex';
+  showScr('scr-login');
+  document.getElementById('l-email').value='';
+  document.getElementById('l-pass').value='';
+  showToast('Sesión cerrada');
+  var cw=document.getElementById('cw');cw.classList.remove('open');chatOpen=false;
+  document.getElementById('chat-msgs').innerHTML='';
+  document.getElementById('chat-opts').innerHTML='';
+  chatState='start';
+}
+function toggleDD(){
+  document.getElementById('dd').classList.toggle('open');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.uchip')&&!e.target.closest('.dd'))
+    document.getElementById('dd').classList.remove('open');
+});
+function fillSvc(name){
+  var sel=document.getElementById('tk-svc');
+  for(var i=0;i<sel.options.length;i++){if(sel.options[i].text===name){sel.value=sel.options[i].text;break;}}
+  document.getElementById('tk-svc').scrollIntoView({behavior:'smooth',block:'center'});
+  showToast('Servicio seleccionado: '+name,'');
+}
+function setPrio(el,val){
+  ud.prio=val;
+  document.querySelectorAll('.pb').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+}
+function submitTk(){
+  var svc=document.getElementById('tk-svc').value;
+  var desc=document.getElementById('tk-desc').value.trim();
+  if(!svc||!desc){showToast('Selecciona servicio y describe el problema','r');return;}
+  tkIdx++;
+  var num='#TK-00'+tkIdx;
+  var prioL=ud.prio==='h'?' 🔴':ud.prio==='m'?' 🟡':'';
+  var list=document.getElementById('tk-list');
+  var row=document.createElement('div');row.className='tkr';
+  row.style.animation='msgIn .3s ease';
+  row.innerHTML='<span class="tknum">'+num+'</span><div class="tki"><div class="tkd">'+desc.substring(0,42)+(desc.length>42?'…':'')+prioL+'</div><div class="tks">'+svc+'</div></div><span class="tkp p-op">Abierto</span>';
+  list.insertBefore(row,list.firstChild);
+  document.getElementById('tkc').textContent='('+list.querySelectorAll('.tkr').length+')';
+  document.getElementById('tk-svc').value='';
+  document.getElementById('tk-eq').value='';
+  document.getElementById('tk-desc').value='';
+  document.querySelectorAll('.pb').forEach(function(b){b.classList.remove('on');});
+  ud.prio='';
+  showToast('Ticket '+num+' creado correctamente','g');
+}
+
+/* ===== CHATBOT ===== */
+var diagFlows={
+  'pc_no_enciende':[
+    {bot:'¿El equipo hace algún sonido o parpadea alguna luz cuando presionas el botón de encendido?',opts:['Sí, hace sonido','No, nada de nada','Solo parpadea una luz']},
+    {bot:'Bien. Sigue estos pasos:\n\n1️⃣ Desconecta el cable de corriente completamente\n2️⃣ Si es laptop, retira también la batería\n3️⃣ Mantén presionado el botón de encendido 30 segundos\n4️⃣ Vuelve a conectar y enciende\n\n¿Funcionó?',opts:['✅ Sí, encendió','❌ No funcionó']},
+    {bot:'Intentemos con la memoria RAM:\n\n1️⃣ Apaga y desconecta el equipo\n2️⃣ Abre la tapa lateral (PC) o la tapa inferior (laptop)\n3️⃣ Retira las memorias RAM empujando las palancas\n4️⃣ Límpilas suavemente con una goma de borrar\n5️⃣ Vuelve a insertarlas firmemente\n\n¿Funcionó?',opts:['✅ Encendió','❌ Sigue igual','No sé abrir el equipo']},
+    {bot:'Es probable una falla de hardware más profunda. Te recomiendo traer el equipo a nuestro servicio técnico.\n\n📍 Contacto directo:\n📞 0962 952 717\n💬 WhatsApp: 0962 952 717\n📧 jeanjairxdxd@gmail.com\n\n¿Deseas abrir un ticket de soporte?',opts:['Abrir ticket','Hablar por WhatsApp','Volver al inicio']}
+  ],
+  'pc_lenta':[
+    {bot:'¿Cuándo empezó la lentitud? ¿Fue gradual o de repente?',opts:['Fue gradual','De repente','Tras instalar algo','No sé cuándo']},
+    {bot:'Sigue estos pasos para mejorar el rendimiento:\n\n1️⃣ Presiona Ctrl+Shift+Esc → cierra procesos que consumen mucha CPU\n2️⃣ Ve a Inicio → Configuración → Aplicaciones y desinstala programas no usados\n3️⃣ Escribe "msconfig" → Inicio → deshabilita programas de inicio innecesarios\n4️⃣ Limpia archivos temporales: Win+R → %temp% → elimina todo\n\n¿Mejoró algo?',opts:['✅ Mejoró bastante','Mejoró un poco','❌ Sigue igual']},
+    {bot:'Puede ser un virus. Intenta:\n\n1️⃣ Descarga Malwarebytes Free\n2️⃣ Ejecuta un análisis completo\n3️⃣ Elimina todo lo que encuentre\n4️⃣ Reinicia el equipo\n\n¿Deseas que nuestros técnicos revisen el equipo?',opts:['Sí, crear ticket','No, gracias','Volver al inicio']}
+  ],
+  'internet':[
+    {bot:'¿El problema es solo en tu PC o en todos los dispositivos de la red?',opts:['Solo en mi PC','En todos los dispositivos','Solo en algunos sitios']},
+    {bot:'Probemos soluciones básicas:\n\n1️⃣ Apaga el router 30 segundos y enciéndelo\n2️⃣ En tu PC: Win+R → cmd → escribe: ipconfig /flushdns\n3️⃣ Luego: netsh int ip reset\n4️⃣ Reinicia el equipo\n\n¿Se resolvió?',opts:['✅ Sí, funciona','❌ No funciona','El problema es el router']},
+    {bot:'Si el problema persiste, nuestros técnicos pueden revisar la configuración de red remotamente o presencialmente.\n\n📞 Llámanos: 0962 952 717\n💬 WhatsApp disponible ahora',opts:['Crear ticket','Volver al inicio']}
+  ],
+  'virus':[
+    {bot:'¿Qué síntomas presenta el equipo?',opts:['Publicidad emergente','Archivos encriptados','Redireccionamiento web','El equipo va muy lento']},
+    {bot:'¡Importante! No ingreses contraseñas ni datos bancarios en este equipo por ahora.\n\nPasos de emergencia:\n\n1️⃣ Desconecta el equipo de internet (cable y WiFi)\n2️⃣ Copia tus archivos importantes a un USB limpio\n3️⃣ Usa Windows Defender en modo sin conexión\n\n¿Deseas que nuestros técnicos limpien el equipo?',opts:['Sí, necesito ayuda urgente','Intentaré hacerlo solo','Volver al inicio']},
+    {bot:'Perfecto. Nuestro servicio de limpieza de virus tiene un tiempo de ~1 hora.\n\nCreamos el ticket ahora mismo y te contactamos lo antes posible.\n\n📞 0962 952 717\n📧 jeanjairxdxd@gmail.com',opts:['Crear ticket de virus','Volver al inicio']}
+  ],
+  'impresora':[
+    {bot:'¿Cuál es el problema con la impresora?',opts:['No imprime nada','Imprime borroso','Error de conexión','Atasco de papel']},
+    {bot:'Sigue estos pasos:\n\n1️⃣ Apaga la impresora y desconecta el cable\n2️⃣ Espera 1 minuto\n3️⃣ Vuelve a conectar y enciende\n4️⃣ En Windows: Panel de control → Dispositivos → clic derecho en impresora → "Ver qué se está imprimiendo" → cancela todos los trabajos\n5️⃣ Intenta imprimir una página de prueba\n\n¿Funcionó?',opts:['✅ Sí funciona','❌ No funciona','Necesito reseteo completo']},
+    {bot:'Para reseteo completo o reparación de impresoras, nuestro servicio toma ~30 minutos.\n\n📞 0962 952 717\n💬 WhatsApp para atención inmediata',opts:['Crear ticket','Volver al inicio']}
+  ],
+  'formateo':[
+    {bot:'¿Ya tienes respaldo de tus archivos importantes?',opts:['Sí, tengo respaldo','No, necesito hacer respaldo primero','No tengo archivos que guardar']},
+    {bot:'Para el formateo necesitamos:\n\n📋 Lista de verificación:\n✅ Respaldo de documentos y fotos\n✅ Nota de programas que usas\n✅ Claves WiFi y cuentas importantes\n✅ Llevar el equipo con cargador\n\nEl proceso toma ~3 horas. ¿Quieres agendar el servicio?',opts:['Sí, agendar','Primero necesito respaldo','Volver al inicio']},
+    {bot:'Perfecto. También ofrecemos el servicio de respaldo antes del formateo.\n\n📞 0962 952 717\n💬 WhatsApp: 0962 952 717\n📧 jeanjairxdxd@gmail.com\n\nContáctanos para coordinar horario.',opts:['Crear ticket','Volver al inicio']}
+  ]
+};
+
+var menuOpts=[
+  {l:'🖥️ Mi PC no enciende',v:'pc_no_enciende'},
+  {l:'🐢 PC muy lenta',v:'pc_lenta'},
+  {l:'🌐 Sin conexión a internet',v:'internet'},
+  {l:'🦠 Virus / malware',v:'virus'},
+  {l:'🖨️ Problema con impresora',v:'impresora'},
+  {l:'💿 Necesito formateo',v:'formateo'},
+  {l:'📧 Contactar técnico',v:'contact'},
+  {l:'📋 Abrir ticket',v:'ticket'}
+];
+
+function toggleChat(){
+  var cw=document.getElementById('cw');
+  chatOpen=!chatOpen;
+  if(chatOpen){
+    cw.classList.add('open');
+    if(chatState==='start')initChat();
+  } else {
+    cw.classList.remove('open');
+  }
+}
+function botMsg(text,delay){
+  var msgs=document.getElementById('chat-msgs');
+  var typing=document.createElement('div');
+  typing.className='msg msg-typing';
+  typing.innerHTML='<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+  msgs.appendChild(typing);
+  msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(function(){
+    typing.remove();
+    var m=document.createElement('div');
+    m.className='msg msg-bot';
+    m.style.whiteSpace='pre-line';
+    m.textContent=text;
+    msgs.appendChild(m);
+    msgs.scrollTop=msgs.scrollHeight;
+  },delay||900);
+}
+function userMsg(text){
+  var msgs=document.getElementById('chat-msgs');
+  var m=document.createElement('div');
+  m.className='msg msg-user';
+  m.textContent=text;
+  msgs.appendChild(m);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+function setOpts(opts){
+  var el=document.getElementById('chat-opts');
+  el.innerHTML='';
+  if(!opts||!opts.length)return;
+  opts.forEach(function(o){
+    var label=typeof o==='string'?o:o.l;
+    var val=typeof o==='string'?o:o.v;
+    var btn=document.createElement('button');
+    btn.className='copt';
+    btn.textContent=label;
+    btn.onclick=function(){handleOpt(label,val);};
+    el.appendChild(btn);
+  });
+}
+function initChat(){
+  chatState='menu';chatStep=0;
+  document.getElementById('chat-msgs').innerHTML='';
+  setTimeout(function(){
+    botMsg('¡Hola! 👋 Soy el asistente virtual de **JMZ Servicios**.\n\n¿En qué puedo ayudarte hoy? Selecciona una opción o escribe tu problema directamente.',500);
+    setTimeout(function(){setOpts(menuOpts);},1500);
+  },300);
+}
+function handleOpt(label,val){
+  userMsg(label);
+  setOpts([]);
+  if(val==='contact'){
+    botMsg('Puedes contactarnos directamente:\n\n📞 Teléfono: 0962 952 717\n💬 WhatsApp: 0962 952 717\n📧 Email: jeanjairxdxd@gmail.com\n⏰ Horario: Lun–Sáb 8:00–18:00\n\nNuestros técnicos te atenderán lo antes posible.',800);
+    setTimeout(function(){setOpts([{l:'⬅ Volver al menú',v:'menu'}]);},1800);
+    return;
+  }
+  if(val==='ticket'){
+    botMsg('Puedes crear un ticket desde el panel principal. También puedes enviarnos los detalles del problema por:\n\n📧 jeanjairxdxd@gmail.com\n💬 WhatsApp: 0962 952 717',800);
+    setTimeout(function(){setOpts([{l:'⬅ Volver al menú',v:'menu'}]);},1800);
+    return;
+  }
+  if(val==='menu'||val==='Volver al inicio'){
+    chatState='menu';chatStep=0;diagTopic='';
+    setTimeout(function(){
+      botMsg('De acuerdo. ¿En qué más puedo ayudarte?',400);
+      setTimeout(function(){setOpts(menuOpts);},1200);
+    },300);
+    return;
+  }
+  if(val==='Hablar por WhatsApp'){
+    window.open('https://wa.me/593962952717','_blank');
+    return;
+  }
+  if(val==='Crear ticket'||val==='Sí, crear ticket'||val==='Abrir ticket'||val==='Sí, necesito ayuda urgente'||val==='Sí, agendar'||val==='Crear ticket de virus'){
+    botMsg('Perfecto. Para agilizar el proceso, comunícate con nosotros:\n\n📞 0962 952 717\n📧 jeanjairxdxd@gmail.com\n\nO usa el formulario de tickets en el panel principal. ¡Te atendemos pronto! 🚀',800);
+    setTimeout(function(){setOpts([{l:'⬅ Volver al menú',v:'menu'}]);},2000);
+    return;
+  }
+  if(diagFlows[val]){
+    diagTopic=val;chatState='diag';chatStep=0;
+    var flow=diagFlows[val];
+    botMsg(flow[0].bot,800);
+    setTimeout(function(){setOpts(flow[0].opts);},1700);
+    chatStep=1;
+    return;
+  }
+  if(chatState==='diag'&&diagTopic&&diagFlows[diagTopic]){
+    var flow=diagFlows[diagTopic];
+    if(chatStep<flow.length){
+      botMsg(flow[chatStep].bot,800);
+      setTimeout(function(){
+        if(flow[chatStep]&&flow[chatStep].opts)setOpts(flow[chatStep].opts);
+      },1700);
+      chatStep++;
+    } else {
+      chatState='menu';chatStep=0;diagTopic='';
+      botMsg('¿Hay algo más en lo que pueda ayudarte?',600);
+      setTimeout(function(){setOpts(menuOpts);},1400);
+    }
+    return;
+  }
+  botMsg('¿Hay algo más en lo que pueda ayudarte?',600);
+  setTimeout(function(){setOpts(menuOpts);},1400);
+}
+function sendMsg(){
+  var inp=document.getElementById('chat-inp');
+  var v=inp.value.trim();if(!v)return;
+  inp.value='';
+  userMsg(v);
+  setOpts([]);
+  var vl=v.toLowerCase();
+  if(vl.includes('hola')||vl.includes('buenos')){
+    botMsg('¡Hola! 😊 ¿En qué te puedo ayudar hoy?',700);
+    setTimeout(function(){setOpts(menuOpts);},1500);
+  } else if(vl.includes('no enciende')||vl.includes('no prende')){
+    handleOpt('🖥️ Mi PC no enciende','pc_no_enciende');
+  } else if(vl.includes('lenta')||vl.includes('lento')){
+    handleOpt('🐢 PC muy lenta','pc_lenta');
+  } else if(vl.includes('internet')||vl.includes('wifi')||vl.includes('red')){
+    handleOpt('🌐 Sin conexión a internet','internet');
+  } else if(vl.includes('virus')||vl.includes('malware')){
+    handleOpt('🦠 Virus / malware','virus');
+  } else if(vl.includes('impresora')){
+    handleOpt('🖨️ Problema con impresora','impresora');
+  } else if(vl.includes('formateo')||vl.includes('formatear')){
+    handleOpt('💿 Necesito formateo','formateo');
+  } else if(vl.includes('precio')||vl.includes('costo')||vl.includes('cuanto')||vl.includes('cuánto')){
+    botMsg('Los precios varían según el servicio y la complejidad del problema. Para un presupuesto exacto:\n\n📞 0962 952 717\n📧 jeanjairxdxd@gmail.com\n\nHacemos diagnóstico gratuito para cotizar con precisión. 💯',800);
+    setTimeout(function(){setOpts([{l:'⬅ Volver al menú',v:'menu'}]);},2000);
+  } else if(vl.includes('gracias')){
+    botMsg('¡Con mucho gusto! 😊 Estoy aquí si necesitas más ayuda. ¡Que tengas un excelente día! 🚀',700);
+    setTimeout(function(){setOpts([{l:'⬅ Menú principal',v:'menu'}]);},1500);
+  } else {
+    botMsg('Entiendo. Para darte la mejor solución, ¿tu consulta se relaciona con alguno de estos temas?',700);
+    setTimeout(function(){setOpts(menuOpts);},1500);
+  }
+}
+</script>
+</body>
+</html>

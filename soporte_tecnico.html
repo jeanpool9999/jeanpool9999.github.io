@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechSupport · UNESUM</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0e1a;--bg2:#0f1424;--card:#131929;--card2:#1a2035;
+  --border:#1f2d4a;--blue:#2563eb;--blue2:#3b82f6;--blue-glow:#60a5fa;
+  --blue-bg:rgba(37,99,235,.12);--green:#22c55e;--green-bg:rgba(34,197,94,.1);
+  --amber:#f59e0b;--amber-bg:rgba(245,158,11,.1);--red:#ef4444;
+  --red-bg:rgba(239,68,68,.1);--purple:#a855f7;--purple-bg:rgba(168,85,247,.1);
+  --text:#f0f4ff;--text2:#94a3b8;--text3:#64748b;--radius:10px;--r2:16px;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative}
+.auth-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18}
+.orb1{width:500px;height:500px;background:#1d4ed8;top:-100px;left:-100px}
+.orb2{width:400px;height:400px;background:#7c3aed;bottom:-80px;right:-80px}
+.orb3{width:300px;height:300px;background:#0891b2;top:50%;left:50%;transform:translate(-50%,-50%)}
+.auth-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:2.5rem 2rem;width:100%;max-width:460px;position:relative;z-index:1}
+.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:2rem;justify-content:center}
+.auth-logo-icon{width:40px;height:40px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.auth-logo-icon svg{width:22px;height:22px;fill:#fff}
+.auth-logo-name{font-size:1.1rem;font-weight:700;color:var(--text)}
+.auth-logo-sub{font-size:11px;color:var(--text2)}
+.auth-title{font-size:1.5rem;font-weight:700;text-align:center;margin-bottom:.4rem}
+.auth-sub{font-size:13px;color:var(--text2);text-align:center;margin-bottom:1.75rem}
+.steps{display:flex;align-items:center;gap:0;margin-bottom:2rem}
+.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid var(--border);color:var(--text3);background:var(--bg2);flex-shrink:0;transition:all .3s}
+.step-dot.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.step-dot.done{background:var(--green);border-color:var(--green);color:#fff}
+.step-line{flex:1;height:2px;background:var(--border);transition:background .3s}
+.step-line.done{background:var(--green)}
+.role-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.role-card{background:var(--bg2);border:2px solid var(--border);border-radius:var(--radius);padding:.8rem .5rem;text-align:center;cursor:pointer;transition:all .2s}
+.role-card:hover{border-color:var(--blue);background:var(--blue-bg)}
+.role-card.selected{border-color:var(--blue);background:var(--blue-bg)}
+.role-icon{font-size:1.5rem;margin-bottom:.35rem}
+.role-name{font-size:11px;font-weight:600;color:var(--text2)}
+.role-card.selected .role-name{color:var(--blue-glow)}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.finput{width:100%;background:var(--bg2);border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius);padding:10px 13px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s}
+.finput:focus{border-color:var(--blue);background:#0d1528}
+.finput::placeholder{color:var(--text3)}
+.finput.error{border-color:var(--red)}
+.finput.ok{border-color:var(--green)}
+.finput-wrap{position:relative}
+.finput-icon{position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:14px}
+.err-msg{font-size:11px;color:var(--red);margin-top:3px;min-height:14px}
+.strength{margin-top:5px}
+.strength-bar{height:3px;border-radius:2px;background:var(--border);overflow:hidden;margin-bottom:3px}
+.strength-fill{height:100%;border-radius:2px;transition:width .3s,background .3s}
+.strength-txt{font-size:11px;color:var(--text3)}
+.btn-primary{width:100%;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);padding:12px;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .1s;margin-top:.5rem}
+.btn-primary:hover{background:var(--blue2)}
+.btn-primary:active{transform:scale(.98)}
+.btn-ghost{background:none;border:1.5px solid var(--border);color:var(--text2);border-radius:var(--radius);padding:10px;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;width:100%;margin-top:.5rem}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue-glow)}
+.link-btn{background:none;border:none;color:var(--blue-glow);font-size:13px;cursor:pointer;text-decoration:underline;padding:0;font-family:inherit}
+.auth-footer{text-align:center;margin-top:1.25rem;font-size:13px;color:var(--text2)}
+.divider{display:flex;align-items:center;gap:10px;margin:1.25rem 0;color:var(--text3);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.av-grid{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.av-opt{width:44px;height:44px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;transition:all .2s;background:var(--bg2)}
+.av-opt:hover,.av-opt.sel{border-color:var(--blue);transform:scale(1.1)}
+.av-opt.sel{background:var(--blue-bg)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 20px;font-size:13px;font-weight:500;color:var(--text);z-index:9999;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s;opacity:0;pointer-events:none;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.green{border-color:var(--green);color:var(--green)}
+.toast.red{border-color:var(--red);color:var(--red)}
+#app-shell{display:none;flex-direction:column;min-height:100vh}
+.topbar{background:var(--card);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;padding:0 1.5rem;gap:16px;position:sticky;top:0;z-index:100}
+.topbar-logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px;flex-shrink:0}
+.tl-icon{width:34px;height:34px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.tl-icon svg{width:18px;height:18px;fill:#fff}
+.topbar-search{flex:1;max-width:380px;position:relative}
+.topbar-search input{width:100%;background:var(--bg2);border:1.5px solid var(--border);color:var(--text);border-radius:8px;padding:8px 12px 8px 34px;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s}
+.topbar-search input:focus{border-color:var(--blue)}
+.topbar-search input::placeholder{color:var(--text3)}
+.search-ic{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:15px;pointer-events:none}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.notif-btn{background:var(--bg2);border:1px solid var(--border);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:16px;position:relative;transition:border-color .2s}
+.notif-btn:hover{border-color:var(--blue)}
+.notif-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--red);border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;border:2px solid var(--card)}
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:4px 12px 4px 4px;cursor:pointer;transition:border-color .2s}
+.user-chip:hover{border-color:var(--blue)}
+.user-av{width:28px;height:28px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.user-chip-name{font-size:12px;font-weight:600;color:var(--text)}
+.user-chip-role{font-size:10px;color:var(--text2)}
+.main-content{flex:1;padding:1.5rem;max-width:1100px;margin:0 auto;width:100%}
+.hero-strip{background:var(--card2);border:1px solid var(--border);border-radius:var(--r2);padding:1.5rem 2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem}
+.hero-av{width:56px;height:56px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.hero-text h2{font-size:1.2rem;font-weight:700}
+.hero-text p{font-size:13px;color:var(--text2);margin-top:2px}
+.hero-badge{margin-left:auto;background:var(--green-bg);border:1px solid rgba(34,197,94,.3);color:var(--green);font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;display:flex;align-items:center;gap:5px;white-space:nowrap}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;transition:border-color .2s,transform .2s;cursor:default}
+.stat-card:hover{border-color:var(--blue);transform:translateY(-2px)}
+.stat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.stat-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.stat-change{font-size:11px;font-weight:600;padding:2px 7px;border-radius:10px}
+.stat-up{background:var(--green-bg);color:var(--green)}
+.stat-down{background:var(--red-bg);color:var(--red)}
+.stat-val{font-size:1.6rem;font-weight:800}
+.stat-lbl{font-size:12px;color:var(--text2);margin-top:2px}
+.section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:1rem}
+.section-hdr h3{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.section-hdr::after{content:'';flex:1;height:1px;background:var(--border)}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+.svc-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;cursor:pointer;transition:all .2s}
+.svc-card:hover{border-color:var(--blue);transform:translateY(-3px)}
+.svc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.7rem}
+.svc-em{font-size:1.3rem}
+.svc-time{font-size:10px;font-weight:600;padding:3px 8px;border-radius:10px}
+.t-fast{background:var(--green-bg);color:var(--green)}
+.t-med{background:var(--amber-bg);color:var(--amber)}
+.t-slow{background:var(--blue-bg);color:var(--blue-glow)}
+.svc-card h4{font-size:13px;font-weight:600;margin-bottom:.3rem}
+.svc-card p{font-size:11px;color:var(--text2);line-height:1.5}
+.svc-btn{display:block;width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:7px;padding:6px;font-size:11px;font-weight:500;cursor:pointer;margin-top:.7rem;transition:all .2s;text-align:center}
+.svc-btn:hover{background:var(--blue-bg);border-color:var(--blue);color:var(--blue-glow)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem}
+.panel h4{font-size:13px;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:6px}
+.panel h4 span{font-size:11px;font-weight:400;color:var(--text2)}
+.tf-field{margin-bottom:.75rem}
+.tf-field label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:4px}
+.tf-input,.tf-select,.tf-textarea{width:100%;background:var(--bg2);border:1.5px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s}
+.tf-input:focus,.tf-select:focus,.tf-textarea:focus{border-color:var(--blue)}
+.tf-input::placeholder,.tf-textarea::placeholder{color:var(--text3)}
+.tf-select{cursor:pointer;appearance:none}
+.tf-select option{background:var(--card)}
+.tf-textarea{resize:vertical;min-height:70px}
+.prio-wrap{display:flex;gap:6px}
+.pb{background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s}
+.pb-low.sel{background:var(--green-bg);border-color:rgba(34,197,94,.4);color:var(--green)}
+.pb-med.sel{background:var(--amber-bg);border-color:rgba(245,158,11,.4);color:var(--amber)}
+.pb-high.sel{background:var(--red-bg);border-color:rgba(239,68,68,.4);color:var(--red)}
+.tf-submit{width:100%;background:var(--blue);color:#fff;border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;margin-top:.75rem;transition:background .2s}
+.tf-submit:hover{background:var(--blue2)}
+.tk-row{display:flex;align-items:center;gap:10px;padding:.75rem 0;border-bottom:1px solid var(--border)}
+.tk-row:last-child{border-bottom:none}
+.tk-num{font-size:11px;color:var(--text3);font-family:monospace;min-width:58px;flex-shrink:0}
+.tk-info{flex:1;min-width:0}
+.tk-desc{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk-svc{font-size:11px;color:var(--text2)}
+.tk-pill{font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.p-open{background:var(--green-bg);color:var(--green)}
+.p-prog{background:var(--blue-bg);color:var(--blue-glow)}
+.p-done{background:#1a2035;color:var(--text3)}
+.flow-wrap{margin-bottom:1.5rem}
+.flow-steps{display:flex;align-items:center;gap:0}
+.fs{flex:1;text-align:center}
+.fs-circle{width:36px;height:36px;border-radius:50%;background:var(--bg2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:12px;font-weight:700;color:var(--text3);transition:all .3s}
+.fs.active .fs-circle{background:var(--blue);border-color:var(--blue);color:#fff}
+.fs.done .fs-circle{background:var(--green);border-color:var(--green);color:#fff}
+.fs-label{font-size:10px;font-weight:600;color:var(--text3)}
+.fs.active .fs-label{color:var(--blue-glow)}
+.fs.done .fs-label{color:var(--green)}
+.fs-line{flex:0 0 20px;height:2px;background:var(--border)}
+.fs-line.done{background:var(--green)}
+.dropdown{position:absolute;top:62px;right:1.5rem;background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);min-width:200px;z-index:200;display:none;padding:.5rem}
+.dropdown.open{display:block}
+.dd-header{padding:.6rem .75rem;border-bottom:1px solid var(--border);margin-bottom:.4rem}
+.dd-name{font-size:13px;font-weight:700}
+.dd-role{font-size:11px;color:var(--text2)}
+.dd-item{display:flex;align-items:center;gap:8px;padding:.5rem .75rem;border-radius:7px;cursor:pointer;font-size:13px;color:var(--text2);transition:all .15s}
+.dd-item:hover{background:var(--bg2);color:var(--text)}
+.dd-sep{height:1px;background:var(--border);margin:.4rem 0}
+.dd-item.danger:hover{color:var(--red)}
+@media(max-width:640px){
+  .stats-row{grid-template-columns:1fr 1fr}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .two-col{grid-template-columns:1fr}
+  .field-row{grid-template-columns:1fr}
+  .hero-badge{margin-left:0;margin-top:.5rem}
+  .hero-strip{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<div id="auth-screens">
+
+  <!-- LOGIN -->
+  <div class="auth-wrap" id="screen-login">
+    <div class="auth-bg">
+      <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+    </div>
+    <div class="auth-card">
+      <div class="auth-logo">
+        <div class="auth-logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 2a8 8 0 110 16A8 8 0 0112 4zm-1 3v6l5 3-1 1.7-6-3.7V7h2z"/></svg>
+        </div>
+        <div>
+          <div class="auth-logo-name">TechSupport</div>
+          <div class="auth-logo-sub">UNESUM · Soporte Técnico</div>
+        </div>
+      </div>
+      <h1 class="auth-title">Bienvenido</h1>
+      <p class="auth-sub">Inicia sesión para gestionar tus solicitudes técnicas</p>
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input class="finput" type="email" id="login-email" placeholder="usuario@unesum.edu.ec">
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <div class="finput-wrap">
+          <input class="finput" type="password" id="login-pass" placeholder="••••••••">
+          <span class="finput-icon" onclick="togglePass('login-pass',this)" style="cursor:pointer;color:var(--text3)">👁</span>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="doLogin()">Iniciar sesión</button>
+      <div class="divider">o</div>
+      <button class="btn-ghost" onclick="showScreen('screen-register')">Crear cuenta nueva</button>
+      <div style="text-align:center;margin-top:1rem;font-size:11px;color:var(--text3)">Demo: cualquier correo y contraseña</div>
+    </div>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="auth-wrap" id="screen-register" style="display:none">
+    <div class="auth-bg">
+      <div class="orb orb1"></div><div class="orb orb2"></div>
+    </div>
+    <div class="auth-card" style="max-width:500px">
+      <div class="auth-logo">
+        <div class="auth-logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 2a8 8 0 110 16A8 8 0 0112 4zm-1 3v6l5 3-1 1.7-6-3.7V7h2z"/></svg>
+        </div>
+        <div>
+          <div class="auth-logo-name">TechSupport · UNESUM</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step-dot active" id="sd1">1</div>
+        <div class="step-line" id="sl1"></div>
+        <div class="step-dot" id="sd2">2</div>
+        <div class="step-line" id="sl2"></div>
+        <div class="step-dot" id="sd3">3</div>
+      </div>
+
+      <!-- Step 1 -->
+      <div id="reg-step1">
+        <h1 class="auth-title" style="font-size:1.2rem">Elige tu tipo de cuenta</h1>
+        <p class="auth-sub" style="margin-bottom:1.25rem">¿Cómo utilizarás el sistema?</p>
+        <div class="role-grid">
+          <div class="role-card" onclick="selectRole(this,'Estudiante')"><div class="role-icon">🎓</div><div class="role-name">Estudiante</div></div>
+          <div class="role-card" onclick="selectRole(this,'Docente')"><div class="role-icon">👨‍🏫</div><div class="role-name">Docente</div></div>
+          <div class="role-card" onclick="selectRole(this,'Administrativo')"><div class="role-icon">🏛️</div><div class="role-name">Administrativo</div></div>
+          <div class="role-card" onclick="selectRole(this,'Técnico')"><div class="role-icon">🔧</div><div class="role-name">Técnico</div></div>
+          <div class="role-card" onclick="selectRole(this,'Externo')"><div class="role-icon">🌐</div><div class="role-name">Externo</div></div>
+          <div class="role-card" onclick="selectRole(this,'Administrador')"><div class="role-icon">⚙️</div><div class="role-name">Admin</div></div>
+        </div>
+        <div id="role-err" class="err-msg" style="display:none;margin-bottom:.5rem">Selecciona un tipo de usuario.</div>
+        <div class="field">
+          <label>Elige tu avatar</label>
+          <div class="av-grid">
+            <div class="av-opt sel" onclick="selectAv(this,'😀')">😀</div>
+            <div class="av-opt" onclick="selectAv(this,'🧑‍💻')">🧑‍💻</div>
+            <div class="av-opt" onclick="selectAv(this,'👩‍🔬')">👩‍🔬</div>
+            <div class="av-opt" onclick="selectAv(this,'🦸')">🦸</div>
+            <div class="av-opt" onclick="selectAv(this,'🧑‍🎓')">🧑‍🎓</div>
+            <div class="av-opt" onclick="selectAv(this,'🧑‍🏫')">🧑‍🏫</div>
+            <div class="av-opt" onclick="selectAv(this,'🧑‍⚕️')">🧑‍⚕️</div>
+            <div class="av-opt" onclick="selectAv(this,'🤖')">🤖</div>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="goStep(2)">Continuar →</button>
+        <div class="auth-footer">¿Ya tienes cuenta? <button class="link-btn" onclick="showScreen('screen-login')">Iniciar sesión</button></div>
+      </div>
+
+      <!-- Step 2 -->
+      <div id="reg-step2" style="display:none">
+        <h1 class="auth-title" style="font-size:1.2rem">Datos personales</h1>
+        <p class="auth-sub" style="margin-bottom:1.25rem">Información de identificación requerida</p>
+        <div class="field-row">
+          <div class="field">
+            <label>Nombres</label>
+            <input class="finput" type="text" id="r-nombres" placeholder="Jean Pool" oninput="liveVal(this,2)">
+            <div class="err-msg" id="e-nombres"></div>
+          </div>
+          <div class="field">
+            <label>Apellidos</label>
+            <input class="finput" type="text" id="r-apellidos" placeholder="Mendoza Vera" oninput="liveVal(this,2)">
+            <div class="err-msg" id="e-apellidos"></div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Cédula de identidad (CI)</label>
+            <input class="finput" type="text" id="r-ci" placeholder="1234567890" maxlength="10" oninput="validateCI(this)">
+            <div class="err-msg" id="e-ci"></div>
+          </div>
+          <div class="field">
+            <label>Edad</label>
+            <input class="finput" type="number" id="r-edad" placeholder="22" min="15" max="99" oninput="validateEdad(this)">
+            <div class="err-msg" id="e-edad"></div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Teléfono</label>
+            <input class="finput" type="tel" id="r-telefono" placeholder="0991234567" maxlength="10" oninput="validateTel(this)">
+            <div class="err-msg" id="e-telefono"></div>
+          </div>
+          <div class="field">
+            <label>Sexo</label>
+            <select class="finput" id="r-sexo" style="cursor:pointer;appearance:none">
+              <option value="">Selecciona...</option>
+              <option>Masculino</option>
+              <option>Femenino</option>
+              <option>Prefiero no decir</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Dirección</label>
+          <input class="finput" type="text" id="r-dir" placeholder="Ciudad, barrio...">
+        </div>
+        <button class="btn-primary" onclick="goStep(3)">Continuar →</button>
+        <button class="btn-ghost" onclick="goStep(1)">← Volver</button>
+      </div>
+
+      <!-- Step 3 -->
+      <div id="reg-step3" style="display:none">
+        <h1 class="auth-title" style="font-size:1.2rem">Crea tus credenciales</h1>
+        <p class="auth-sub" style="margin-bottom:1.25rem">Elige usuario y contraseña de acceso</p>
+        <div class="field">
+          <label>Nombre de usuario</label>
+          <div class="finput-wrap">
+            <input class="finput" type="text" id="r-user" placeholder="jeanpool.mendoza" oninput="liveUser(this)">
+            <span class="finput-icon" id="user-ic"></span>
+          </div>
+          <div class="err-msg" id="e-user"></div>
+        </div>
+        <div class="field">
+          <label>Correo electrónico</label>
+          <input class="finput" type="email" id="r-email" placeholder="jmendoza@unesum.edu.ec" oninput="liveEmail(this)">
+          <div class="err-msg" id="e-email"></div>
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <div class="finput-wrap">
+            <input class="finput" type="password" id="r-pass" placeholder="Mínimo 8 caracteres" oninput="checkStrength(this)">
+            <span class="finput-icon" onclick="togglePass('r-pass',this)" style="cursor:pointer;color:var(--text3)">👁</span>
+          </div>
+          <div class="strength">
+            <div class="strength-bar"><div class="strength-fill" id="str-bar" style="width:0%"></div></div>
+            <div class="strength-txt" id="str-txt">Ingresa una contraseña</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Confirmar contraseña</label>
+          <div class="finput-wrap">
+            <input class="finput" type="password" id="r-pass2" placeholder="Repite la contraseña" oninput="checkMatch(this)">
+            <span class="finput-icon" id="match-ic"></span>
+          </div>
+          <div class="err-msg" id="e-pass2"></div>
+        </div>
+        <button class="btn-primary" onclick="doRegister()">Crear cuenta</button>
+        <button class="btn-ghost" onclick="goStep(2)">← Volver</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="app-shell">
+  <div class="topbar">
+    <div class="topbar-logo">
+      <div class="tl-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 2a8 8 0 110 16A8 8 0 0112 4zm-1 3v6l5 3-1 1.7-6-3.7V7h2z"/></svg>
+      </div>
+      TechSupport
+    </div>
+    <div class="topbar-search">
+      <span class="search-ic">🔍</span>
+      <input type="text" placeholder="Buscar servicio o ticket...">
+    </div>
+    <div class="topbar-right">
+      <div class="notif-btn" onclick="showToast('Tienes 3 notificaciones pendientes','')">
+        🔔<div class="notif-badge">3</div>
+      </div>
+      <div class="user-chip" onclick="toggleDD()">
+        <div class="user-av" id="dash-av" style="font-size:15px">😀</div>
+        <div>
+          <div class="user-chip-name" id="dash-name">Usuario</div>
+          <div class="user-chip-role" id="dash-role">Estudiante</div>
+        </div>
+      </div>
+      <div class="dropdown" id="user-dd">
+        <div class="dd-header">
+          <div class="dd-name" id="dd-name">Jean Pool</div>
+          <div class="dd-role" id="dd-role-txt">Estudiante · UNESUM</div>
+        </div>
+        <div class="dd-item">👤 Mi perfil</div>
+        <div class="dd-item">🎫 Mis tickets</div>
+        <div class="dd-item">⚙️ Configuración</div>
+        <div class="dd-sep"></div>
+        <div class="dd-item danger" onclick="logout()">🚪 Cerrar sesión</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="hero-strip">
+      <div class="hero-av" id="dash-hero-av" style="font-size:1.6rem">😀</div>
+      <div class="hero-text">
+        <h2 id="dash-hello">Hola, Usuario!</h2>
+        <p id="dash-info">Estudiante · UNESUM 2026</p>
+      </div>
+      <div class="hero-badge"><div class="pulse"></div>Sistemas en línea</div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-top"><div class="stat-icon" style="background:var(--green-bg)">✅</div><span class="stat-change stat-up">+2 hoy</span></div>
+        <div class="stat-val">12</div><div class="stat-lbl">Tickets abiertos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top"><div class="stat-icon" style="background:var(--blue-bg)">⚡</div><span class="stat-change stat-up">Activos</span></div>
+        <div class="stat-val">4</div><div class="stat-lbl">En progreso</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top"><div class="stat-icon" style="background:var(--amber-bg)">📊</div><span class="stat-change stat-up">+3%</span></div>
+        <div class="stat-val">98%</div><div class="stat-lbl">Tasa de resolución</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-top"><div class="stat-icon" style="background:var(--purple-bg)">⏱️</div><span class="stat-change stat-down">-0.5h</span></div>
+        <div class="stat-val">2.3h</div><div class="stat-lbl">Tiempo promedio</div>
+      </div>
+    </div>
+
+    <div class="flow-wrap">
+      <div class="section-hdr"><h3>Flujo CTTE</h3></div>
+      <div class="flow-steps">
+        <div class="fs done"><div class="fs-circle">✓</div><div class="fs-label">Solicitud</div></div>
+        <div class="fs-line done"></div>
+        <div class="fs done"><div class="fs-circle">✓</div><div class="fs-label">Diagnóstico</div></div>
+        <div class="fs-line done"></div>
+        <div class="fs active"><div class="fs-circle">3</div><div class="fs-label">Intervención</div></div>
+        <div class="fs-line"></div>
+        <div class="fs"><div class="fs-circle">4</div><div class="fs-label">Pruebas</div></div>
+        <div class="fs-line"></div>
+        <div class="fs"><div class="fs-circle">5</div><div class="fs-label">Entrega</div></div>
+      </div>
+    </div>
+
+    <div class="section-hdr"><h3>Servicios disponibles</h3></div>
+    <div class="services-grid">
+      <div class="svc-card" onclick="fillService('Mantenimiento preventivo')">
+        <div class="svc-top"><span class="svc-em">🔧</span><span class="svc-time t-med">~2 h</span></div>
+        <h4>Mantenimiento preventivo</h4>
+        <p>Revisión periódica, limpieza física y verificación general del sistema.</p>
+        <button class="svc-btn">Solicitar servicio</button>
+      </div>
+      <div class="svc-card" onclick="fillService('Mantenimiento correctivo')">
+        <div class="svc-top"><span class="svc-em">🛠️</span><span class="svc-time t-slow">Variable</span></div>
+        <h4>Mantenimiento correctivo</h4>
+        <p>Diagnóstico y reparación de fallas para restablecer el equipo.</p>
+        <button class="svc-btn">Solicitar servicio</button>
+      </div>
+      <div class="svc-card" onclick="fillService('Formateo de equipos')">
+        <div class="svc-top"><span class="svc-em">💿</span><span class="svc-time t-slow">~3 h</span></div>
+        <h4>Formateo de equipos</h4>
+        <p>Reinstalación del SO y programas básicos desde cero.</p>
+        <button class="svc-btn">Solicitar servicio</button>
+      </div>
+      <div class="svc-card" onclick="fillService('Respaldo de información')">
+        <div class="svc-top"><span class="svc-em">📦</span><span class="svc-time t-fast">~1 h</span></div>
+        <h4>Respaldo de información</h4>
+        <p>Copia segura de datos antes de cualquier intervención.</p>
+        <button class="svc-btn">Solicitar servicio</button>
+      </div>
+      <div class="svc-card" onclick="fillService('Reseteo de impresoras')">
+        <div class="svc-top"><span class="svc-em">🖨️</span><span class="svc-time t-fast">~30 min</span></div>
+        <h4>Reseteo de impresoras</h4>
+        <p>Restauración de configuración original y resolución de bloqueos.</p>
+        <button class="svc-btn">Solicitar servicio</button>
+      </div>
+      <div class="svc-card" onclick="fillService('Limpieza de virus')">
+        <div class="svc-top"><span class="svc-em">🦠</span><span class="svc-time t-fast">~1 h</span></div>
+        <h4>Limpieza de virus</h4>
+        <p>Detección y eliminación de malware que afecta el rendimiento.</p>
+        <button class="svc-btn">Solicitar servicio</button>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="panel">
+        <h4>🎫 Nuevo ticket <span>de soporte</span></h4>
+        <div class="tf-field">
+          <label>Servicio</label>
+          <select class="tf-select" id="tk-serv">
+            <option value="">Selecciona un servicio...</option>
+            <option>Mantenimiento preventivo</option>
+            <option>Mantenimiento correctivo</option>
+            <option>Formateo de equipos</option>
+            <option>Respaldo de información</option>
+            <option>Reseteo de impresoras</option>
+            <option>Limpieza de virus</option>
+            <option>Cambio de sistema operativo</option>
+          </select>
+        </div>
+        <div class="tf-field">
+          <label>Tipo de equipo</label>
+          <select class="tf-select" id="tk-equipo">
+            <option value="">Selecciona...</option>
+            <option>Laptop</option>
+            <option>PC escritorio</option>
+            <option>Impresora</option>
+            <option>Servidor</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="tf-field">
+          <label>Descripción del problema</label>
+          <textarea class="tf-textarea" id="tk-desc" placeholder="Describe el problema con detalle..."></textarea>
+        </div>
+        <div class="tf-field">
+          <label>Prioridad</label>
+          <div class="prio-wrap">
+            <button class="pb pb-low" onclick="setPrio(this,'low')">Baja</button>
+            <button class="pb pb-med" onclick="setPrio(this,'med')">Media</button>
+            <button class="pb pb-high" onclick="setPrio(this,'high')">Alta</button>
+          </div>
+        </div>
+        <button class="tf-submit" onclick="submitTicket()">Enviar solicitud</button>
+      </div>
+
+      <div class="panel">
+        <h4>📋 Tickets recientes <span id="tk-count">(4)</span></h4>
+        <div id="tk-list">
+          <div class="tk-row"><span class="tk-num">#TK-0041</span><div class="tk-info"><div class="tk-desc">PC no enciende tras actualización</div><div class="tk-svc">Mantenimiento correctivo</div></div><span class="tk-pill p-prog">En progreso</span></div>
+          <div class="tk-row"><span class="tk-num">#TK-0040</span><div class="tk-info"><div class="tk-desc">Formateo y reinstalación Windows 11</div><div class="tk-svc">Formateo de equipos</div></div><span class="tk-pill p-open">Abierto</span></div>
+          <div class="tk-row"><span class="tk-num">#TK-0039</span><div class="tk-info"><div class="tk-desc">Canon no responde a comandos</div><div class="tk-svc">Reseteo de impresoras</div></div><span class="tk-pill p-done">Resuelto</span></div>
+          <div class="tk-row"><span class="tk-num">#TK-0038</span><div class="tk-info"><div class="tk-desc">Lentitud extrema, posible malware</div><div class="tk-svc">Limpieza de virus</div></div><span class="tk-pill p-done">Resuelto</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:1rem 0 2rem;font-size:11px;color:var(--text3)">
+      TechSupport · UNESUM 2026 · Tecnologías de la Información — 8vo semestre
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var ud={role:'Estudiante',avatar:'😀',prio:''};
+var usedNames=['jeanpool.m','willian.a','jose.c'];
+
+function showScreen(id){
+  document.getElementById('screen-login').style.display=id==='screen-login'?'flex':'none';
+  document.getElementById('screen-register').style.display=id==='screen-register'?'flex':'none';
+}
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast'+(type?' '+type:'');
+  void t.offsetWidth;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+function togglePass(id,el){
+  var i=document.getElementById(id);
+  i.type=i.type==='password'?'text':'password';
+  el.textContent=i.type==='password'?'👁':'🙈';
+}
+function selectRole(el,role){
+  document.querySelectorAll('.role-card').forEach(function(c){c.classList.remove('selected');});
+  el.classList.add('selected');ud.role=role;
+  document.getElementById('role-err').style.display='none';
+}
+function selectAv(el,av){
+  document.querySelectorAll('.av-opt').forEach(function(a){a.classList.remove('sel');});
+  el.classList.add('sel');ud.avatar=av;
+}
+function goStep(n){
+  if(n===2&&!ud.role){document.getElementById('role-err').style.display='block';return;}
+  if(n===3){
+    var ok=true;
+    ['r-nombres','r-apellidos','r-ci','r-edad','r-telefono'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(!el.value.trim()){el.classList.add('error');ok=false;}
+    });
+    if(!ok){showToast('Completa todos los campos requeridos','red');return;}
+  }
+  [1,2,3].forEach(function(i){
+    document.getElementById('reg-step'+i).style.display=i===n?'block':'none';
+    var dot=document.getElementById('sd'+i);
+    if(i<n){dot.className='step-dot done';dot.textContent='✓';}
+    else if(i===n){dot.className='step-dot active';dot.textContent=i;}
+    else{dot.className='step-dot';dot.textContent=i;}
+  });
+  [1,2].forEach(function(i){
+    var l=document.getElementById('sl'+i);
+    if(l)l.className='step-line'+(i<n?' done':'');
+  });
+}
+function liveVal(el,min){
+  el.className='finput'+(el.value.trim().length>=min?' ok':'');
+}
+function validateCI(el){
+  var v=el.value.replace(/\D/g,'');el.value=v;
+  var ok=v.length===10;
+  el.className='finput'+(ok?' ok':v.length>0?' error':'');
+  document.getElementById('e-ci').textContent=!ok&&v.length>0?'Debe tener 10 dígitos.':'';
+}
+function validateEdad(el){
+  var v=parseInt(el.value);var ok=v>=15&&v<=99;
+  el.className='finput'+(ok?' ok':el.value?' error':'');
+  document.getElementById('e-edad').textContent=!ok&&el.value?'Ingresa entre 15 y 99.':'';
+}
+function validateTel(el){
+  var v=el.value.replace(/\D/g,'');el.value=v;
+  var ok=v.length===10;
+  el.className='finput'+(ok?' ok':v.length>0?' error':'');
+  document.getElementById('e-telefono').textContent=!ok&&v.length>0?'Teléfono de 10 dígitos.':'';
+}
+function liveUser(el){
+  var v=el.value.trim();var taken=usedNames.includes(v);
+  var ok=v.length>=4&&!taken;
+  el.className='finput'+(ok?' ok':v?' error':'');
+  document.getElementById('user-ic').textContent=ok?'✅':v?'❌':'';
+  document.getElementById('e-user').textContent=taken?'Nombre de usuario ya en uso.':'';
+}
+function liveEmail(el){
+  var ok=el.value.includes('@')&&el.value.includes('.');
+  el.className='finput'+(ok?' ok':el.value?' error':'');
+}
+function checkStrength(el){
+  var v=el.value,s=0;
+  if(v.length>=8)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;
+  var bar=document.getElementById('str-bar'),txt=document.getElementById('str-txt');
+  var w=[0,25,50,75,100][s],c=['','var(--red)','var(--amber)','var(--blue2)','var(--green)'][s];
+  var l=['Ingresa una contraseña','Débil','Regular','Buena','Fuerte'][s];
+  bar.style.width=w+'%';bar.style.background=c||'';
+  txt.textContent=l;txt.style.color=c||'var(--text3)';
+}
+function checkMatch(el){
+  var p=document.getElementById('r-pass').value,ok=el.value===p&&p.length>0;
+  el.className='finput'+(ok?' ok':el.value?' error':'');
+  document.getElementById('match-ic').textContent=ok?'✅':el.value?'❌':'';
+  document.getElementById('e-pass2').textContent=!ok&&el.value?'Las contraseñas no coinciden.':'';
+}
+function doLogin(){
+  var email=document.getElementById('login-email').value.trim();
+  var pass=document.getElementById('login-pass').value;
+  if(!email||!pass){showToast('Ingresa correo y contraseña','red');return;}
+  var name=email.split('@')[0].replace(/[._]/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+  launchApp(name);
+}
+function doRegister(){
+  var user=document.getElementById('r-user').value.trim();
+  var email=document.getElementById('r-email').value.trim();
+  var pass=document.getElementById('r-pass').value;
+  var pass2=document.getElementById('r-pass2').value;
+  if(!user||!email||!pass){showToast('Completa todos los campos','red');return;}
+  if(pass!==pass2){showToast('Las contraseñas no coinciden','red');return;}
+  if(pass.length<8){showToast('Contraseña mínimo 8 caracteres','red');return;}
+  var nombres=document.getElementById('r-nombres').value.trim();
+  var apellidos=document.getElementById('r-apellidos').value.trim();
+  var name=(nombres+' '+apellidos).trim()||user;
+  usedNames.push(user);
+  launchApp(name);
+}
+function launchApp(name){
+  document.getElementById('auth-screens').style.display='none';
+  var app=document.getElementById('app-shell');app.style.display='flex';
+  document.getElementById('dash-av').textContent=ud.avatar;
+  document.getElementById('dash-hero-av').textContent=ud.avatar;
+  var first=name.split(' ')[0];
+  document.getElementById('dash-name').textContent=first;
+  document.getElementById('dash-role').textContent=ud.role;
+  document.getElementById('dash-hello').textContent='Hola, '+first+'!';
+  document.getElementById('dash-info').textContent=ud.role+' · UNESUM 2026';
+  document.getElementById('dd-name').textContent=name;
+  document.getElementById('dd-role-txt').textContent=ud.role+' · UNESUM';
+  showToast('Bienvenido, '+first,'green');
+}
+function logout(){
+  document.getElementById('app-shell').style.display='none';
+  document.getElementById('auth-screens').style.display='block';
+  showScreen('screen-login');
+  document.getElementById('login-email').value='';
+  document.getElementById('login-pass').value='';
+  showToast('Sesión cerrada');
+}
+function toggleDD(){
+  document.getElementById('user-dd').classList.toggle('open');
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.user-chip')&&!e.target.closest('.dropdown'))
+    document.getElementById('user-dd').classList.remove('open');
+});
+function fillService(name){
+  var sel=document.getElementById('tk-serv');
+  for(var i=0;i<sel.options.length;i++){if(sel.options[i].text===name){sel.value=sel.options[i].value||name;break;}}
+  document.getElementById('tk-serv').scrollIntoView({behavior:'smooth',block:'center'});
+  showToast('Servicio: '+name,'');
+}
+function setPrio(el,val){
+  ud.prio=val;
+  document.querySelectorAll('.pb').forEach(function(b){b.classList.remove('sel');});
+  el.classList.add('sel');
+}
+var tkNum=41;
+function submitTicket(){
+  var svc=document.getElementById('tk-serv').value;
+  var desc=document.getElementById('tk-desc').value.trim();
+  if(!svc||!desc){showToast('Selecciona servicio y describe el problema','red');return;}
+  tkNum++;
+  var num='#TK-00'+tkNum;
+  var prioLabel=ud.prio==='high'?' 🔴':ud.prio==='med'?' 🟡':'';
+  var list=document.getElementById('tk-list');
+  var row=document.createElement('div');row.className='tk-row';
+  row.innerHTML='<span class="tk-num">'+num+'</span><div class="tk-info"><div class="tk-desc">'+desc.substring(0,40)+(desc.length>40?'…':'')+prioLabel+'</div><div class="tk-svc">'+svc+'</div></div><span class="tk-pill p-open">Abierto</span>';
+  list.insertBefore(row,list.firstChild);
+  document.getElementById('tk-count').textContent='('+list.querySelectorAll('.tk-row').length+')';
+  document.getElementById('tk-serv').value='';
+  document.getElementById('tk-equipo').value='';
+  document.getElementById('tk-desc').value='';
+  document.querySelectorAll('.pb').forEach(function(b){b.classList.remove('sel');});
+  ud.prio='';
+  showToast('Ticket '+num+' creado correctamente','green');
+}
+</script>
+</body>
+</html>
